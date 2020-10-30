@@ -56,16 +56,16 @@ public class Hit extends AHint {
 					this.x, this.y, 
 					upDeflection[0], upDeflection[1],
 					downDeflection[0], downDeflection[1])
-				+ new Hit(this.boardDim, this.getNextPosn()[0], this.getNextPosn()[1], this.dir).generate(hints)
-				+ String.format(" & (P%d%d & ~P%d%d) => ",
+				+ new Hit(this.boardDim, this.getNextPosn()[0], this.getNextPosn()[1], this.dir).generate(hints) + ")"
+				+ String.format(" & ((P%d%d & ~P%d%d) => ",
 						upDeflection[0], upDeflection[1], 
 						downDeflection[0], downDeflection[1])
-				+ new Hit(this.boardDim, deflFromAbove.getNextPosn()[0], deflFromAbove.getNextPosn()[1], (this.dir + 1) % 4).generate(hints)
-				+ String.format(" & (~P%d%d & P%d%d) => ",
+				+ new Hit(this.boardDim, deflFromAbove.getNextPosn()[0], deflFromAbove.getNextPosn()[1], (this.dir + 1) % 4).generate(hints) + ")"
+				+ String.format(" & ((~P%d%d & P%d%d) => ",
 						upDeflection[0], upDeflection[1], 
 						downDeflection[0], downDeflection[1])
-				+ new Hit(this.boardDim, deflFromBelow.getNextPosn()[0], deflFromBelow.getNextPosn()[1], ((this.dir == 0) ? 3 : (this.dir - 1))).generate(hints)
-				+ String.format(" & (P%d%d & P%d%d) => 0",
+				+ new Hit(this.boardDim, deflFromBelow.getNextPosn()[0], deflFromBelow.getNextPosn()[1], ((this.dir == 0) ? 3 : (this.dir - 1))).generate(hints) + ")"
+				+ String.format(" & ((P%d%d & P%d%d) => 0",
 						upDeflection[0], upDeflection[1], 
 						downDeflection[0], downDeflection[1]) + "))"; 
 		}
