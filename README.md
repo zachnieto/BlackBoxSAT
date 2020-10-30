@@ -1,5 +1,5 @@
 # BlackBoxSAT
-Consistency Problem in the 70's board game BlackBox
+Solving the consistency problem for the 70's board game BlackBox
 
 Overview: https://en.wikipedia.org/wiki/Black_Box_(game)
 
