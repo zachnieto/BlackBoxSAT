@@ -13,7 +13,7 @@ public class test {
 
 		try {
 			String booleanForm = hit.generate();
-			booleanForm = "P01 | (~P10 & ~P12 => ((P11 | (~P20 & ~P22 => (P21 & P20 & ~P22 => (P12 & ~P20 & P22 => (P10 & P20 & P22 => 0))))) & P10 & ~P12 => (P02 & ~P10 & P12 => (P00 & P10 & P12 => 0))))";
+			//booleanForm = "P01 | (~P10 & ~P12 => ((P11 | (~P20 & ~P22 => (P21 & P20 & ~P22 => (P12 & ~P20 & P22 => (P10 & P20 & P22 => 0))))) & P10 & ~P12 => (P02 & ~P10 & P12 => (P00 & P10 & P12 => 0))))";
 			//booleanForm = "(D & ~A & B => (C & A & B => 0))";
 			final FormulaFactory f = new FormulaFactory();
 			final PropositionalParser p = new PropositionalParser(f);
