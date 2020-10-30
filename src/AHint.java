@@ -45,7 +45,7 @@ public abstract class AHint implements IHint {
 			return new int[] {this.x - 1, this.y}; 
 		}
 		else
-			throw new IllegalArgumentException("illegal dir"); 
+			throw new IllegalArgumentException("illegal dir: " +dir);
 	}
 
 	public int[] getDeflect(int up) {

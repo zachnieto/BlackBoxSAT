@@ -18,7 +18,7 @@ public class BooleanToCNF {
         return formula.cnf();
     }
 
-    Tristate satSolve(String booleanFormula) throws ParserException {
+    static Tristate satSolve(String booleanFormula) throws ParserException {
         final FormulaFactory f = new FormulaFactory();
         final PropositionalParser p = new PropositionalParser(f);
         final Formula formula = p.parse(booleanFormula);
@@ -32,11 +32,14 @@ public class BooleanToCNF {
 
     public static void main(String[] args)  {
 
+
+        IHint hit = new Hit(5, 0, 3, 1);
+        String booleanForm = hit.generate();
         Formula f = null;
 
 
         try {
-            f = convertToCNF("P01 | ((P10 => 0) & ~P10 => (P11))");
+            f = convertToCNF(booleanForm);
         } catch (ParserException e) {
             e.printStackTrace();
         }
