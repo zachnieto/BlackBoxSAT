@@ -6,10 +6,10 @@ import org.logicng.io.parsers.PropositionalParser;
 public class test {
 
 	public static void main(String[] args) {
-		AHint hit = new Hit(3, new Posn(-1, 0), Direction.EAST);// new Posn(-1, 0), new Posn(-1, 0));
+		AHint exit = new Exit(3, new Posn(-1, 0), Direction.EAST, new Posn(-1, 0), new Posn(-1, 0));
 		
 		try {
-			String booleanForm = hit.generate();
+			String booleanForm = exit.generate();
 
 			System.out.println(booleanForm);
 
