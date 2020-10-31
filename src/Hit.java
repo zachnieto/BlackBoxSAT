@@ -7,9 +7,7 @@ public class Hit extends AHint {
 	// 1 - E
 	// 2 - S
 	// 3 - W
-	
-	
-	
+
     Hit(int boardDim, int x, int y, int dir) {
       super(boardDim, x, y, dir);
     }
@@ -32,7 +30,7 @@ public class Hit extends AHint {
 		int[] downDeflection = this.getDeflect(-1); 
 		
 		if( this.outOfBounds(upDeflection) && this.outOfBounds(downDeflection)   )
-			return "(P" + this.x + this.y + ")";
+			return "P" + this.x + this.y;
 		else if ( this.outOfBounds(upDeflection)  ) {
 			return String.format("(P%d%d | ((P%d%d => 0) & ~P%d%d => ",
 						this.x, this.y, 
@@ -52,20 +50,20 @@ public class Hit extends AHint {
 			Hit deflFromAbove = new Hit(this.boardDim, this.x, this.y, (this.dir + 1) % 4); 
 			Hit deflFromBelow = new Hit(this.boardDim, this.x, this.y, ((this.dir == 0) ? 3 : (this.dir - 1)));
 			
-			return String.format("(P%d%d | ((~P%d%d & ~P%d%d) =>  ", 
+			return String.format("(P%d%d | ((~P%d%d & ~P%d%d) => ", 
 					this.x, this.y, 
 					upDeflection[0], upDeflection[1],
 					downDeflection[0], downDeflection[1])
-				+ new Hit(this.boardDim, this.getNextPosn()[0], this.getNextPosn()[1], this.dir).generate(hints)
-				+ String.format(" & (P%d%d & ~P%d%d) => ",
+				+ new Hit(this.boardDim, this.getNextPosn()[0], this.getNextPosn()[1], this.dir).generate(hints) + ")"
+				+ String.format(" & ((P%d%d & ~P%d%d) => ",
 						upDeflection[0], upDeflection[1], 
 						downDeflection[0], downDeflection[1])
-				+ new Hit(this.boardDim, deflFromAbove.getNextPosn()[0], deflFromAbove.getNextPosn()[1], (this.dir + 1) % 4).generate(hints)
-				+ String.format(" & (~P%d%d & P%d%d) => ",
+				+ new Hit(this.boardDim, deflFromAbove.getNextPosn()[0], deflFromAbove.getNextPosn()[1], (this.dir + 1) % 4).generate(hints) + ")"
+				+ String.format(" & ((~P%d%d & P%d%d) => ",
 						upDeflection[0], upDeflection[1], 
 						downDeflection[0], downDeflection[1])
-				+ new Hit(this.boardDim, deflFromBelow.getNextPosn()[0], deflFromBelow.getNextPosn()[1], ((this.dir == 0) ? 3 : (this.dir - 1))).generate(hints)
-				+ String.format(" & (P%d%d & P%d%d) => 0",
+				+ new Hit(this.boardDim, deflFromBelow.getNextPosn()[0], deflFromBelow.getNextPosn()[1], ((this.dir == 0) ? 3 : (this.dir - 1))).generate(hints) + ")"
+				+ String.format(" & ((P%d%d & P%d%d) => 0",
 						upDeflection[0], upDeflection[1], 
 						downDeflection[0], downDeflection[1]) + "))"; 
 		}
