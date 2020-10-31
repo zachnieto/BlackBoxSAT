@@ -13,31 +13,43 @@ public class Exit extends AHint {
 	@Override
 	public String generate() {
 		if(this.outOfBounds(this.dir.ballCW(this.startPos))) {
-			return String.format("((P%d%d => ", this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY())
-				+ (startPos.equals(endPos) ? "1)" : "0)")
-				+ " & " 
+			if(this.startPos.equals(this.endPos)) {
+				return String.format("P%d%d", this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY()); 
+			}
+			else {
+				return String.format("(~P%d%d)", this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY())
+				+ " & (" 
 				+ new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>())
 				+ ")"; 
+			}
 		}
 		else if(this.outOfBounds(this.dir.ballCCW(this.startPos))) {
-			return String.format("((P%d%d => ", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY())
-					+ (startPos.equals(endPos) ? "1)" : "0)")
-					+ " & "
-					+ new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>())
-					+ ")"; 
+			if(this.startPos.equals(this.endPos)) {
+				return String.format("P%d%d", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY()); 
+			}
+			else {
+				return String.format("(~P%d%d)", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY())
+				+ " & (" 
+				+ new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>())
+				+ ")"; 
+			}
 		}
 		else {
-	    	return String.format("((P%d%d | P%d%d) => ", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY(),
-	    											    this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY())
-	    		   + (startPos.equals(endPos) ? "1)" : "0)")
-	    		   + " & " 
-	    		   + new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>())
-	    		   + ")";
+			if(this.startPos.equals(this.endPos)) {
+				return String.format("(P%d%d | P%d%d) | (", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY(),
+					    								   this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY()) 
+					+ new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>()) + ")"; 
+			}
+			else {
+		    	return String.format("(~P%d%d & ~P%d%d) & (", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY(),
+		    											     this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY())
+		    		+ new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>()) + ")"; 
+			}
 		}
 	}
 	public String generate(ArrayList<AHint> checked) {
 		 if (checked.contains(this)) {
-		      return "0";
+		      return AHint.nil;
 		    }
 		    
 		 checked.add(this);
@@ -51,7 +63,7 @@ public class Exit extends AHint {
 			 if(this.dir.getNextPosn(this.position).equals(endPos))
 				 return String.format("~P%d%d", this.position.getX(), this.position.getY()); 
 			 else
-				 return "0"; 
+				 return AHint.nil; 
 		 }
 		 else if(this.outOfBounds(ballCW)) {
 			 if(this.dir.nextCounterClockwiseDirection().getNextPosn(this.position).equals(endPos))
@@ -76,7 +88,7 @@ public class Exit extends AHint {
 			 		+ String.format(" & ((~P%d%d & P%d%d) => ", ballCW.getX(), ballCW.getY(), ballCCW.getX(), ballCCW.getY())
 			 		+ new Exit(this.boardDim, this.dir.nextCounterClockwiseDirection().getNextPosn(this.position), this.dir.nextCounterClockwiseDirection(), this.startPos, this.endPos).generate(checked) + ")"
 			 		+ String.format(" & ((P%d%d & P%d%d) => ", ballCW.getX(), ballCW.getY(), ballCCW.getX(), ballCCW.getY())
-			 		+ ((startPos.equals(endPos)) ? "1)" : "0)") + "))";
+			 		+ ((startPos.equals(endPos)) ? AHint.t + ")" : AHint.nil + ")") + "))";
 		 }
 
 	}
