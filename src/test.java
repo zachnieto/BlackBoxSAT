@@ -6,8 +6,8 @@ import org.logicng.io.parsers.PropositionalParser;
 public class test {
 
 	public static void main(String[] args) {
-		AHint hit = new Hit(3, new Posn(0, 1), Direction.EAST);
-
+		AHint hit = new Hit(3, new Posn(-1, 0), Direction.EAST);// new Posn(-1, 0), new Posn(-1, 0));
+		
 		try {
 			String booleanForm = hit.generate();
 
