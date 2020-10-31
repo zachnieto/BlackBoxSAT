@@ -1,5 +1,8 @@
 
 public abstract class AHint {
+	public final static String t = "(A | ~A)"; 
+	public final static String nil = "(A & ~A)"; 
+	
 	protected int boardDim;
 	protected Posn position; 
 	protected Direction dir; 
