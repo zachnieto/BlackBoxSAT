@@ -10,9 +10,10 @@ public class test {
 
 		try {
 			String booleanForm = hit.generate();
+
 			
 			System.out.println(booleanForm);
-			
+
 			final FormulaFactory f = new FormulaFactory();
 			final PropositionalParser p = new PropositionalParser(f);
 			final Formula formula = p.parse(booleanForm);
