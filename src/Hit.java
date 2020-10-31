@@ -8,64 +8,65 @@ public class Hit extends AHint {
 	// 2 - S
 	// 3 - W
 
-    Hit(int boardDim, int x, int y, int dir) {
-      super(boardDim, x, y, dir);
+    Hit(int boardDim, Posn p, Direction dir) {
+      super(boardDim, p, dir);
     }
 
     @Override
 	public String generate() {
-    	return this.generate(new ArrayList<>());
+    	return String.format("~P%d%d & ~P%d%d & ", this.dir.ballCW(this.position).getX(), this.dir.ballCW(this.position).getY(),
+    											   this.dir.ballCCW(this.position).getX(), this.dir.ballCCW(this.position).getY())
+    		   + this.generate(new ArrayList<>());
 	}
 
-	@Override
-	public String generate(ArrayList<IHint> hints) { //problem: cycles? - must keep track of places we already visited
+	
+	public String generate(ArrayList<AHint> checked) { //problem: cycles? - must keep track of places we already visited
+		// if recursion leads back to a cell-direction pair we've already checked, terminate the expression
+	    if (checked.contains(this)) {
+	      return "0";
+	    }
+	    
+	    checked.add(this);
 
-    	if (hints.contains(this)) {
-    		return "0";
-		}
-
-    	hints.add(this);
-
-		int[] upDeflection = this.getDeflect(1); 
-		int[] downDeflection = this.getDeflect(-1); 
-		
-		if( this.outOfBounds(upDeflection) && this.outOfBounds(downDeflection)   )
-			return "P" + this.x + this.y;
-		else if ( this.outOfBounds(upDeflection)  ) {
+	    // get the position of a ball that would deflect the ray from clockwise
+	    Posn ballCW = this.dir.ballCW(this.position);
+	    // get the position of a ball that would deflect the ray from counterclockwise
+	    Posn ballCCW = this.dir.ballCCW(this.position);
+	    
+		if( this.outOfBounds(ballCW) && this.outOfBounds(ballCCW)   )
+			return "P" + this.position.getX() + this.position.getY();
+		else if ( this.outOfBounds(ballCW)  ) {
 			return String.format("(P%d%d | ((P%d%d => 0) & ~P%d%d => ",
-						this.x, this.y, 
-						downDeflection[0], downDeflection[1], 
-						downDeflection[0], downDeflection[1])
-					+ new Hit(this.boardDim, this.getNextPosn()[0], this.getNextPosn()[1], dir).generate(hints) + "))";
+						this.position.getX(), this.position.getY(), 
+						ballCCW.getX(), ballCCW.getY(), 
+						ballCCW.getX(), ballCCW.getY())
+					+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(checked) + "))";
 		}
-		else if ( this.outOfBounds(downDeflection) ) {
+		else if ( this.outOfBounds(ballCCW) ) {
 			return String.format("(P%d%d | ((P%d%d => 0) & ~P%d%d => ",
-						this.x, this.y, 
-						upDeflection[0], upDeflection[1], 
-						upDeflection[0], upDeflection[1])
-				+ new Hit(this.boardDim, this.getNextPosn()[0], this.getNextPosn()[1], dir).generate(hints) + "))";
+						this.position.getX(), this.position.getY(), 
+						ballCW.getX(), ballCW.getY(), 
+						ballCW.getX(), ballCW.getY())
+				+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(checked) + "))";
 		
 		}		
-		else {
-			Hit deflFromAbove = new Hit(this.boardDim, this.x, this.y, (this.dir + 1) % 4); 
-			Hit deflFromBelow = new Hit(this.boardDim, this.x, this.y, ((this.dir == 0) ? 3 : (this.dir - 1)));
-			
+		else {			
 			return String.format("(P%d%d | ((~P%d%d & ~P%d%d) => ", 
-					this.x, this.y, 
-					upDeflection[0], upDeflection[1],
-					downDeflection[0], downDeflection[1])
-				+ new Hit(this.boardDim, this.getNextPosn()[0], this.getNextPosn()[1], this.dir).generate(hints) + ")"
+					this.position.getX(), this.position.getY(), 
+					ballCW.getX(), ballCW.getY(),
+					ballCCW.getX(), ballCCW.getY())
+				+ new Hit(this.boardDim, dir.getNextPosn(this.position), this.dir).generate(checked) + ")"
 				+ String.format(" & ((P%d%d & ~P%d%d) => ",
-						upDeflection[0], upDeflection[1], 
-						downDeflection[0], downDeflection[1])
-				+ new Hit(this.boardDim, deflFromAbove.getNextPosn()[0], deflFromAbove.getNextPosn()[1], (this.dir + 1) % 4).generate(hints) + ")"
+						ballCW.getX(), ballCW.getY(), 
+						ballCCW.getX(), ballCCW.getY())
+				+ new Hit(this.boardDim, this.dir.nextClockwiseDirection().getNextPosn(this.position), this.dir.nextClockwiseDirection()).generate(checked) + ")"
 				+ String.format(" & ((~P%d%d & P%d%d) => ",
-						upDeflection[0], upDeflection[1], 
-						downDeflection[0], downDeflection[1])
-				+ new Hit(this.boardDim, deflFromBelow.getNextPosn()[0], deflFromBelow.getNextPosn()[1], ((this.dir == 0) ? 3 : (this.dir - 1))).generate(hints) + ")"
+						ballCW.getX(), ballCW.getY(), 
+						ballCCW.getX(), ballCCW.getY())
+				+ new Hit(this.boardDim, this.dir.nextCounterClockwiseDirection().getNextPosn(this.position), this.dir.nextCounterClockwiseDirection()).generate(checked) + ")"
 				+ String.format(" & ((P%d%d & P%d%d) => 0",
-						upDeflection[0], upDeflection[1], 
-						downDeflection[0], downDeflection[1]) + "))"; 
+						ballCW.getX(), ballCW.getY(), 
+						ballCCW.getX(), ballCCW.getY()) + "))"; 
 		}
 	
 	}

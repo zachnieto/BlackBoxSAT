@@ -1,71 +1,31 @@
 
-public abstract class AHint implements IHint {
+public abstract class AHint {
 	protected int boardDim;
-	protected int x;
-	protected int y;
-	protected int dir;
+	protected Posn position; 
+	protected Direction dir;
 
-	AHint(int boardDim, int x, int y, int dir) {
+	AHint(int boardDim, Posn p, Direction dir) {
 		this.setBoardDim(boardDim);
-		this.setX(x);
-		this.setY(y);
-		this.setDir(dir);
+		this.position = p; 
+		this.dir = dir; 
 	}
 
 	
 	public int getBoardDim() { return boardDim; }
 	 
 	public void setBoardDim(int boardDim) { this.boardDim = boardDim; }
-	
-	public int getX() { return x; }
-	
-	public void setX(int x) { this.x = x; }
-	
-	public int getY() { return y; }
-	 
-	public void setY(int y) { this.y = y; }
-	 
-	public int getDir() { return dir; }
-	
-	public void setDir(int dir) { this.dir = dir; }
-	
+
 	public abstract String generate();
 
-	public int[] getNextPosn() {
-		if(dir == 0) {
-			return new int[] {this.x, this.y - 1}; 
-		}
-		else if(dir == 1) {
-			return new int[] {this.x + 1, this.y}; 
-		}
-		else if(dir == 2) {
-			return new int[] {this.x, this.y + 1}; 
-		}
-		else if(dir == 3) {
-			return new int[] {this.x - 1, this.y}; 
-		}
-		else
-			throw new IllegalArgumentException("illegal dir: " +dir);
-	}
-
-	public int[] getDeflect(int up) {
-		if(this.dir == 0)
-			return new int[] { this.getNextPosn()[0] - up, this.getNextPosn()[1] };
-		else if(this.dir == 1)
-			return new int[] { this.getNextPosn()[0], this.getNextPosn()[1] - up };
-		else if(this.dir == 2)
-			return new int[] { this.getNextPosn()[0] + up, this.getNextPosn()[1] };
-		else if(this.dir == 3)
-			return new int[] { this.getNextPosn()[0], this.getNextPosn()[1] + up };
-		else
-			throw new IllegalArgumentException("illegal dir"); 
+	public Posn getNextPosn() {
+		return dir.getNextPosn(this.position); 
 	}
 	
-	public boolean outOfBounds(int[] position) {
-		return position[0] == -1 
-		    || position[1] == -1 
-		    || position[0] == this.boardDim
-		    || position[1] == this.boardDim; 
+	public boolean outOfBounds(Posn position) {
+		return position.getX() == -1 
+		    || position.getY() == -1 
+		    || position.getX() == this.boardDim
+		    || position.getY()== this.boardDim; 
 	}
 	
 	@Override
@@ -79,8 +39,8 @@ public abstract class AHint implements IHint {
 	    }
 
 	    AHint other1 = (AHint) other;
-	    return other1.x == this.x
-	    && other1.y == this.y
+	    return other1.position.getX() == this.position.getX()
+	    && other1.position.getY() == this.position.getY()
 	    && other1.dir == this.dir; 
 	  }
 }

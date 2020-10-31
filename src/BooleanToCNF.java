@@ -33,7 +33,7 @@ public class BooleanToCNF {
     public static void main(String[] args)  {
 
 
-        IHint hit = new Hit(5, 0, 3, 1);
+        AHint hit = new Hit(5, new Posn(0, 3), Direction.EAST);
         String booleanForm = hit.generate();
         Formula f = null;
 

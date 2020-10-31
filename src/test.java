@@ -6,12 +6,11 @@ import org.logicng.io.parsers.PropositionalParser;
 public class test {
 
 	public static void main(String[] args) {
-		IHint hit = new Hit(3, 0, 1, 1);
+		AHint hit = new Hit(3, new Posn(0, 1), Direction.EAST);
 
 		try {
 			String booleanForm = hit.generate();
 
-			
 			System.out.println(booleanForm);
 
 			final FormulaFactory f = new FormulaFactory();

@@ -13,7 +13,7 @@ public interface IHint {
    *  
    * @return an x,y coordinate of the next position, moving in the given direction. 
    */
-  public int[] getNextPosn(); 
+  public Posn getNextPosn(); 
   
   
   //public IHint makeNewPosn(); 
