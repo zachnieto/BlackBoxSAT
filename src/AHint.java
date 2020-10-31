@@ -2,7 +2,7 @@
 public abstract class AHint {
 	protected int boardDim;
 	protected Posn position; 
-	protected Direction dir;
+	protected Direction dir; 
 
 	AHint(int boardDim, Posn p, Direction dir) {
 		this.setBoardDim(boardDim);

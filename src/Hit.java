@@ -14,9 +14,19 @@ public class Hit extends AHint {
 
     @Override
 	public String generate() {
-    	return String.format("~P%d%d & ~P%d%d & ", this.dir.ballCW(this.position).getX(), this.dir.ballCW(this.position).getY(),
-    											   this.dir.ballCCW(this.position).getX(), this.dir.ballCCW(this.position).getY())
-    		   + this.generate(new ArrayList<>());
+    	if(this.outOfBounds(this.dir.ballCCW(this.position))) {
+    		return String.format("(~P%d%d) & (", this.dir.ballCW(this.position).getX(), this.dir.ballCW(this.position).getY())
+    			+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(new ArrayList<>()) + ")"; 	
+    	}
+    	else if(this.outOfBounds(this.dir.ballCW(this.position))) {
+    		return String.format("(~P%d%d) & (", this.dir.ballCCW(this.position).getX(), this.dir.ballCCW(this.position).getY())
+        			+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(new ArrayList<>()) + ")"; 
+    	}
+    	else {
+	    	return String.format("(~P%d%d) & (~P%d%d) & (", this.dir.ballCW(this.position).getX(), this.dir.ballCW(this.position).getY(),
+	    											   this.dir.ballCCW(this.position).getX(), this.dir.ballCCW(this.position).getY())
+	    		   + new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(new ArrayList<>()) + ")";
+    	}
 	}
 
 	
@@ -36,18 +46,18 @@ public class Hit extends AHint {
 		if( this.outOfBounds(ballCW) && this.outOfBounds(ballCCW)   )
 			return "P" + this.position.getX() + this.position.getY();
 		else if ( this.outOfBounds(ballCW)  ) {
-			return String.format("(P%d%d | ((P%d%d => 0) & ~P%d%d => ",
+			return String.format("(P%d%d | ((P%d%d => 0) & (~P%d%d => ",
 						this.position.getX(), this.position.getY(), 
 						ballCCW.getX(), ballCCW.getY(), 
 						ballCCW.getX(), ballCCW.getY())
-					+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(checked) + "))";
+					+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(checked) + ")))";
 		}
 		else if ( this.outOfBounds(ballCCW) ) {
-			return String.format("(P%d%d | ((P%d%d => 0) & ~P%d%d => ",
+			return String.format("(P%d%d | ((P%d%d => 0) & (~P%d%d => ",
 						this.position.getX(), this.position.getY(), 
 						ballCW.getX(), ballCW.getY(), 
 						ballCW.getX(), ballCW.getY())
-				+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(checked) + "))";
+				+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(checked) + ")))";
 		
 		}		
 		else {			
