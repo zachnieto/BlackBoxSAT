@@ -4,11 +4,6 @@ import java.util.ArrayList;
  * This class represents a ray that Hits a ball.
  */
 public class Hit extends AHint {
-	// direction convention: 
-	// 0 - N
-	// 1 - E
-	// 2 - S
-	// 3 - W
 
 	/**
 	 * Constructs a Hit using the board dimensions, position of the ray, and direction of travel.

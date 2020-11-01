@@ -95,12 +95,16 @@ public class Exit extends AHint {
 		 }
 		 else {
 			 return String.format("(~P%d%d & (", this.position.getX(), this.position.getY())
+					 
 			 		+ String.format("((~P%d%d & ~P%d%d) => ", ballCW.getX(), ballCW.getY(), ballCCW.getX(), ballCCW.getY())
 			 		+ new Exit(this.boardDim, this.dir.getNextPosn(this.position), this.dir, this.startPos, this.endPos).generate(checked) + ")"
+			 		
 			 		+ String.format(" & ((P%d%d & ~P%d%d) => ", ballCW.getX(), ballCW.getY(), ballCCW.getX(), ballCCW.getY())
 			 		+ new Exit(this.boardDim, this.dir.nextClockwiseDirection().getNextPosn(this.position), this.dir.nextClockwiseDirection(), this.startPos, this.endPos).generate(checked) + ")"
+			 		
 			 		+ String.format(" & ((~P%d%d & P%d%d) => ", ballCW.getX(), ballCW.getY(), ballCCW.getX(), ballCCW.getY())
 			 		+ new Exit(this.boardDim, this.dir.nextCounterClockwiseDirection().getNextPosn(this.position), this.dir.nextCounterClockwiseDirection(), this.startPos, this.endPos).generate(checked) + ")"
+			 		
 			 		+ String.format(" & ((P%d%d & P%d%d) => ", ballCW.getX(), ballCW.getY(), ballCCW.getX(), ballCCW.getY())
 			 		+ ((startPos.equals(endPos)) ? AHint.t + ")" : AHint.nil + ")") + "))";
 		 }

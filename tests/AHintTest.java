@@ -10,30 +10,31 @@ import static org.junit.jupiter.api.Assertions.*;
  * Testing class for AHints.
  */
 class AHintTest {
-
-
+	
     @Test
     void testExamples() {
 
-        AHint exit = new Exit(3, new Posn(-1, 1), Direction.EAST, new Posn(-1, 1), new Posn(1, -1));
-		AHint hit1 = new Hit(3, new Posn(-1, 1), Direction.EAST);
-		AHint hit2 = new Hit(3, new Posn(0, -1), Direction.SOUTH);
-		AHint exit2 = new Exit(3, new Posn(-1, 2), Direction.EAST, new Posn(-1, 2), new Posn(3, 2));
-        AHint exit1 = new Exit(3, new Posn(-1, 0), Direction.EAST, new Posn(-1, 0), new Posn(0, -1));
-        //AHint hit2 = new Hit(3, new Posn(-1, 1), Direction.EAST);
-        AHint exit3 = new Exit(3, new Posn(-1, 2), Direction.EAST, new Posn(-1, 2), new Posn(0, 3));
-        AHint exit4 = new Exit(3, new Posn(0, 3), Direction.NORTH, new Posn(0, 3), new Posn(-1, 2));
-        AHint hit5 = new Hit(3, new Posn(1, 3), Direction.NORTH);
-        AHint exit6 = new Exit(3, new Posn(2, 3), Direction.NORTH, new Posn(2, 3), new Posn(3, 2));
-        AHint exit7 = new Exit(3, new Posn(3, 2), Direction.WEST, new Posn(3, 2), new Posn(2, 3));
-        AHint reflect8 = new Exit(3, new Posn(3, 1), Direction.WEST, new Posn(3, 1), new Posn(3, 1));
-        AHint hit9 = new Hit(3, new Posn(3, 0), Direction.WEST);
-        AHint hit10 = new Hit(3, new Posn(2, -1), Direction.SOUTH);
-        AHint reflect11 = new Exit(3, new Posn(1, -1), Direction.SOUTH, new Posn(1, -1), new Posn(1, -1));
-        AHint exit12 = new Exit(3, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 0));
+    	AHint unsatHint1 = new Exit(3, new Posn(-1, 1), Direction.EAST, new Posn(-1, 1), new Posn(1, -1));
+		AHint unsatHint2 = new Hit(3, new Posn(-1, 1), Direction.EAST);
+		AHint unsatHint3 = new Hit(3, new Posn(0, -1), Direction.SOUTH);
+		AHint unsatHint4 = new Exit(3, new Posn(-1, 2), Direction.EAST, new Posn(-1, 2), new Posn(3, 2));
+    	
+    	
+        AHint satHint1 = new Exit(3, new Posn(-1, 0), Direction.EAST, new Posn(-1, 0), new Posn(0, -1));
+        AHint satHint2 = new Hit(3, new Posn(-1, 1), Direction.EAST);
+        AHint satHint3 = new Exit(3, new Posn(-1, 2), Direction.EAST, new Posn(-1, 2), new Posn(0, 3));
+        AHint satHint4 = new Exit(3, new Posn(0, 3), Direction.NORTH, new Posn(0, 3), new Posn(-1, 2));
+        AHint satHint5 = new Hit(3, new Posn(1, 3), Direction.NORTH);
+        AHint satHint6 = new Exit(3, new Posn(2, 3), Direction.NORTH, new Posn(2, 3), new Posn(3, 2));
+        AHint satHint7 = new Exit(3, new Posn(3, 2), Direction.WEST, new Posn(3, 2), new Posn(2, 3));
+        AHint satHint8 = new Exit(3, new Posn(3, 1), Direction.WEST, new Posn(3, 1), new Posn(3, 1));
+        AHint satHint9 = new Hit(3, new Posn(3, 0), Direction.WEST);
+        AHint satHint10 = new Hit(3, new Posn(2, -1), Direction.SOUTH);
+        AHint satHint11 = new Exit(3, new Posn(1, -1), Direction.SOUTH, new Posn(1, -1), new Posn(1, -1));
+        AHint satHint12 = new Exit(3, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 0));
 
-
-        AHint[] hints = {exit1, hit2, exit3, exit4, hit5, exit6, exit7, reflect8, hit9, hit10, reflect11, exit12};
+        AHint[] hints = {unsatHint1, unsatHint2, unsatHint3, unsatHint4}; 
+        //AHint[] hints = {satHint1, satHint2, satHint3, satHint4, satHint5, satHint6, satHint7, satHint8, satHint9, satHint10, satHint11, satHint12};
 
         String megaExpr = "";
         for (int i = 0; i < hints.length; i++) {
@@ -93,7 +94,8 @@ class AHintTest {
 
     /**
      * Substitutes each occurrence of var in the expression with the b value.
-     *
+     * Used to make testing easier, but has no value in the main code suite.  
+     * 
      * @param expr expression to have replacements.
      * @param var variable to be replaced
      * @param b value to be inserted
