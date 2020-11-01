@@ -24,9 +24,10 @@ public class Exit extends AHint {
 	
 	@Override
 	public String generate() {
-		if(this.outOfBounds(this.dir.ballCW(this.startPos))) {
+		if(this.outOfBounds(this.dir.ballCW(this.startPos))) { 
 			if(this.startPos.equals(this.endPos)) {
-				return String.format("P%d%d", this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY()); 
+				return String.format("(P%d%d & ~P%d%d)", this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY(),
+														this.dir.getNextPosn(this.startPos).getX(), this.dir.getNextPosn(this.startPos).getY()); 
 			}
 			else {
 				return String.format("(~P%d%d)", this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY())
@@ -37,7 +38,8 @@ public class Exit extends AHint {
 		}
 		else if(this.outOfBounds(this.dir.ballCCW(this.startPos))) {
 			if(this.startPos.equals(this.endPos)) {
-				return String.format("P%d%d", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY()); 
+				return String.format("(P%d%d & ~P%d%d)", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY(),
+														this.dir.getNextPosn(this.startPos).getX(), this.dir.getNextPosn(this.startPos).getY()); 
 			}
 			else {
 				return String.format("(~P%d%d)", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY())
@@ -48,14 +50,17 @@ public class Exit extends AHint {
 		}
 		else {
 			if(this.startPos.equals(this.endPos)) {
-				return String.format("(P%d%d | P%d%d) | (", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY(),
-					    								   this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY()) 
-					+ new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>()) + ")"; 
+				return String.format("((P%d%d | P%d%d) & ~P%d%d) | (", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY(),
+					    								   this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY(),
+					    								   this.dir.getNextPosn(this.startPos).getX(), this.dir.getNextPosn(this.startPos).getY()) 
+					+ new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>())
+					+ ")"; 
 			}
 			else {
 		    	return String.format("(~P%d%d & ~P%d%d) & (", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY(),
 		    											     this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY())
-		    		+ new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>()) + ")"; 
+		    		+ new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>())
+		    		+ ")"; 
 			}
 		}
 	}
@@ -75,35 +80,40 @@ public class Exit extends AHint {
 
 		 if(this.outOfBounds(ballCCW) && this.outOfBounds(ballCW)) {
 			 if(this.dir.getNextPosn(this.position).equals(endPos))
-				 return String.format("~P%d%d", this.position.getX(), this.position.getY()); 
+				 return String.format("(~P%d%d)", this.position.getX(), this.position.getY()); 
 			 else
 				 return AHint.nil; 
 		 }
 		 else if(this.outOfBounds(ballCW)) {
 			 if(this.dir.nextCounterClockwiseDirection().getNextPosn(this.position).equals(endPos))
-				 return String.format("P%d%d", ballCCW.getX(), ballCCW.getY()); 
+				 return String.format("(P%d%d)", ballCCW.getX(), ballCCW.getY()); 
 			 else
-				 return String.format("((~P%d%d & ~P%d%d) & ", ballCCW.getX(), ballCCW.getY(), this.position.getX(), this.position.getY())
-					+ new Exit(this.boardDim, this.dir.getNextPosn(this.position), this.dir, this.startPos, this.endPos).generate(checked) + ")"; 
+				 return String.format("(~P%d%d & ~P%d%d) & (", ballCCW.getX(), ballCCW.getY(), this.position.getX(), this.position.getY())
+					+ new Exit(this.boardDim, this.dir.getNextPosn(this.position), this.dir, this.startPos, this.endPos).generate(checked)
+					+ ")"; 
 		 }
 		 else if(this.outOfBounds(ballCCW)) {
 			 if(this.dir.nextClockwiseDirection().getNextPosn(this.position).equals(endPos))
-				 return String.format("P%d%d", ballCW.getX(), ballCW.getY()); 
+				 return String.format("(P%d%d)", ballCW.getX(), ballCW.getY()); 
 			 else
-				 return String.format("((~P%d%d & ~P%d%d) & ", ballCW.getX(), ballCW.getY(), this.position.getX(), this.position.getY())
-					+ new Exit(this.boardDim, this.dir.getNextPosn(this.position), this.dir, this.startPos, this.endPos).generate(checked) + ")";
+				 return String.format("(~P%d%d & ~P%d%d) & (", ballCW.getX(), ballCW.getY(), this.position.getX(), this.position.getY())
+					+ new Exit(this.boardDim, this.dir.getNextPosn(this.position), this.dir, this.startPos, this.endPos).generate(checked)
+					+ ")";
 		 }
 		 else {
 			 return String.format("(~P%d%d & (", this.position.getX(), this.position.getY())
 					 
 			 		+ String.format("((~P%d%d & ~P%d%d) => ", ballCW.getX(), ballCW.getY(), ballCCW.getX(), ballCCW.getY())
-			 		+ new Exit(this.boardDim, this.dir.getNextPosn(this.position), this.dir, this.startPos, this.endPos).generate(checked) + ")"
+			 		+ new Exit(this.boardDim, this.dir.getNextPosn(this.position), this.dir, this.startPos, this.endPos).generate(checked)
+			 		+ ")"
 			 		
 			 		+ String.format(" & ((P%d%d & ~P%d%d) => ", ballCW.getX(), ballCW.getY(), ballCCW.getX(), ballCCW.getY())
-			 		+ new Exit(this.boardDim, this.dir.nextClockwiseDirection().getNextPosn(this.position), this.dir.nextClockwiseDirection(), this.startPos, this.endPos).generate(checked) + ")"
+			 		+ new Exit(this.boardDim, this.dir.nextClockwiseDirection().getNextPosn(this.position), this.dir.nextClockwiseDirection(), this.startPos, this.endPos).generate(checked)
+			 		+ ")"
 			 		
 			 		+ String.format(" & ((~P%d%d & P%d%d) => ", ballCW.getX(), ballCW.getY(), ballCCW.getX(), ballCCW.getY())
-			 		+ new Exit(this.boardDim, this.dir.nextCounterClockwiseDirection().getNextPosn(this.position), this.dir.nextCounterClockwiseDirection(), this.startPos, this.endPos).generate(checked) + ")"
+			 		+ new Exit(this.boardDim, this.dir.nextCounterClockwiseDirection().getNextPosn(this.position), this.dir.nextCounterClockwiseDirection(), this.startPos, this.endPos).generate(checked)
+			 		+ ")"
 			 		
 			 		+ String.format(" & ((P%d%d & P%d%d) => ", ballCW.getX(), ballCW.getY(), ballCCW.getX(), ballCCW.getY())
 			 		+ ((startPos.equals(endPos)) ? AHint.t + ")" : AHint.nil + ")") + "))";

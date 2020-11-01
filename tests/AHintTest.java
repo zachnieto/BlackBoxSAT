@@ -33,17 +33,17 @@ class AHintTest {
         AHint satHint11 = new Exit(3, new Posn(1, -1), Direction.SOUTH, new Posn(1, -1), new Posn(1, -1));
         AHint satHint12 = new Exit(3, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 0));
 
-        AHint[] hints = {unsatHint1, unsatHint2, unsatHint3, unsatHint4}; 
-        //AHint[] hints = {satHint1, satHint2, satHint3, satHint4, satHint5, satHint6, satHint7, satHint8, satHint9, satHint10, satHint11, satHint12};
+        //AHint[] hints = {unsatHint1, unsatHint2, unsatHint3, unsatHint4}; 
+        AHint[] hints = {satHint1, satHint2, satHint3, satHint4, satHint5, satHint6, satHint7, satHint8, satHint9, satHint10, satHint11, satHint12};
 
         String megaExpr = "";
         for (int i = 0; i < hints.length; i++) {
-            megaExpr += hints[i].generate() + " & ";
+            megaExpr += "(" + hints[i].generate() + ") & ";
         }
         megaExpr += AHint.t;
 
         //System.out.println(substitute("P01", "P01", true));
-        String booleanForm = substitute(megaExpr, "P01", false);
+        String booleanForm = substitute(satHint8.generate(), "P01", false);
         booleanForm = substitute(booleanForm, "P00", false);
         booleanForm = substitute(booleanForm, "P02", false);
         booleanForm = substitute(booleanForm, "P10", false);
@@ -54,13 +54,12 @@ class AHintTest {
         booleanForm = substitute(booleanForm, "P22", false);
 
 
-        try {
-            //String booleanForm = substitute(hit1.generate(), "P01", true);
-            //System.out.println(exit.generate());
-            //System.out.println(booleanForm);
-            //System.out.println(megaExpr);
-
+        try {   
+        	
+        	//System.out.println(satHint8.generate());
+        	
             booleanForm = megaExpr;
+            System.out.println(booleanForm);
 
             final FormulaFactory f = new FormulaFactory();
             final PropositionalParser p = new PropositionalParser(f);
