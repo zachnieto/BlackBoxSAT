@@ -102,7 +102,7 @@ class AHintTest {
      * @return the new substituted expression
      */
     public static String substitute(String expr, String var, boolean b) {
-        if (b == true)
+        if (b)
             return expr.replaceAll(var, AHint.t);
         else
             return expr.replaceAll(var, AHint.nil);
