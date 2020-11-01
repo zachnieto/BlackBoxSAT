@@ -25,7 +25,7 @@ public enum Direction {
                 return NORTH;
         }
 
-        throw new IllegalArgumentException("somehow illegal argument");
+        throw new IllegalArgumentException("illegal direction: " + this);
     }
 
     /**
@@ -46,7 +46,7 @@ public enum Direction {
                 return SOUTH;
         }
 
-        throw new IllegalArgumentException("somehow illegal argument");
+        throw new IllegalArgumentException("illegal direction: " + this);
     }
 
     /**
@@ -67,7 +67,7 @@ public enum Direction {
                 return EAST;
         }
 
-        throw new IllegalArgumentException("somehow illegal argument");
+        throw new IllegalArgumentException("illegal direction: " + this);
     }
 
     /**
@@ -90,7 +90,7 @@ public enum Direction {
 
 
         }
-        throw new IllegalArgumentException("nothing");
+        throw new IllegalArgumentException("illegal direction: " + this);
 
     }
 
@@ -112,7 +112,7 @@ public enum Direction {
             case WEST:
                 return new Posn(cur.getX() - 1, cur.getY() - 1);
         }
-        throw new IllegalArgumentException("nothing");
+        throw new IllegalArgumentException("illegal direction: " + this);
     }
 
 	/**
@@ -133,7 +133,7 @@ public enum Direction {
             case WEST:
                 return new Posn(cur.getX() - 1, cur.getY());
         }
-        throw new IllegalArgumentException("nothing");
+        throw new IllegalArgumentException("illegal direction: " + this);
 
     }
 }
