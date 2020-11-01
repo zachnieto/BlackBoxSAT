@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
-//a class to represent a hit Hintl
+/**
+ * This class represents a ray that Hits a ball.
+ */
 public class Hit extends AHint {
 	// direction convention: 
 	// 0 - N
@@ -8,6 +10,13 @@ public class Hit extends AHint {
 	// 2 - S
 	// 3 - W
 
+	/**
+	 * Constructs a Hit using the board dimensions, position of the ray, and direction of travel.
+	 *
+	 * @param boardDim dimensions of board
+	 * @param p position of ray
+	 * @param dir direction of ray travel
+	 */
     Hit(int boardDim, Posn p, Direction dir) {
       super(boardDim, p, dir);
     }
@@ -32,9 +41,8 @@ public class Hit extends AHint {
     	}
 	}
 
-	
-	public String generate(ArrayList<AHint> checked) { //problem: cycles? - must keep track of places we already visited
-		// if recursion leads back to a cell-direction pair we've already checked, terminate the expression
+	@Override
+	public String generate(ArrayList<AHint> checked) {
 	    if (checked.contains(this)) {
 	      return AHint.nil;
 	    }

@@ -6,9 +6,18 @@ import org.logicng.io.parsers.PropositionalParser;
 import org.logicng.solvers.MiniSat;
 import org.logicng.solvers.SATSolver;
 
+/**
+ * This class can convert boolean strings to CNF expression, and also SatSolve expressions.
+ */
 public class BooleanToCNF {
 
-
+    /**
+     * Converts the given expression to a CNF formula.
+     *
+     * @param booleanFormula boolean expression
+     * @return the CNF of the expression
+     * @throws ParserException if the expression is invalid
+     */
     static Formula convertToCNF(String booleanFormula) throws ParserException {
 
         final FormulaFactory f = new FormulaFactory();
@@ -18,6 +27,13 @@ public class BooleanToCNF {
         return formula.cnf();
     }
 
+    /**
+     * Sat Solves the given boolean formula.
+     *
+     * @param booleanFormula boolean expression
+     * @return whether the formula is SAT or not.
+     * @throws ParserException if the expression is invalid
+     */
     static Tristate satSolve(String booleanFormula) throws ParserException {
         final FormulaFactory f = new FormulaFactory();
         final PropositionalParser p = new PropositionalParser(f);
@@ -29,27 +45,6 @@ public class BooleanToCNF {
         return miniSat.sat();
 
     }
-
-    public static void main(String[] args)  {
-
-
-        AHint hit = new Hit(5, new Posn(0, 3), Direction.EAST);
-        String booleanForm = hit.generate();
-        Formula f = null;
-
-
-        try {
-            f = convertToCNF(booleanForm);
-        } catch (ParserException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(f.toString());
-    }
-
-
-
-
 
 
 }

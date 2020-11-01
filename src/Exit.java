@@ -1,9 +1,21 @@
 import java.util.ArrayList;
 
+/**
+ * This class represents a ray that exits the board.
+ */
 public class Exit extends AHint {
 	Posn startPos; //TODO: put this in AHint to use as starting location for hints (checking default generate case)
-	Posn endPos; 
+	Posn endPos;
 
+	/**
+	 * Constructs an Exit Hint expects to exit the board.
+	 *
+	 * @param boardDim dimensions of board
+	 * @param p current position
+	 * @param dir direction of travel
+	 * @param startPos starting position
+	 * @param endPos ending position
+	 */
 	Exit(int boardDim, Posn p, Direction dir, Posn startPos, Posn endPos) {
 		super(boardDim, p, dir); 
 		this.startPos = startPos;
@@ -47,6 +59,8 @@ public class Exit extends AHint {
 			}
 		}
 	}
+
+	@Override
 	public String generate(ArrayList<AHint> checked) {
 		 if (checked.contains(this)) {
 		      return AHint.nil;

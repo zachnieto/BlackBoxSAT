@@ -1,97 +1,139 @@
+/**
+ * This enum represents the 4 cardinal directions that a ray can travel in.
+ */
 public enum Direction {
     NORTH,
     SOUTH,
     EAST,
     WEST;
 
+    /**
+     * Returns the direction directly clockwise of the current.
+     *
+     * @return the next direction clockwise
+     * @throws IllegalArgumentException if the current direction is invalid
+     */
     public Direction nextClockwiseDirection() {
         switch (this) {
             case NORTH:
-            	return EAST;
+                return EAST;
             case EAST:
-            	return SOUTH;
+                return SOUTH;
             case SOUTH:
-            	return WEST; 
+                return WEST;
             case WEST:
-            	return NORTH;  	  	
+                return NORTH;
         }
-        
-        throw new IllegalArgumentException("somehow illegal argument") ;
+
+        throw new IllegalArgumentException("somehow illegal argument");
     }
 
+    /**
+     * Returns the direction directly counterclockwise of the current.
+     *
+     * @return the next direction counterclockwise
+     * @throws IllegalArgumentException if the current direction is invalid
+     */
     public Direction nextCounterClockwiseDirection() {
-    	switch (this) {
-	        case NORTH:
-	        	return WEST;
-	        case EAST:
-	        	return NORTH;
-	        case SOUTH:
-	        	return EAST; 
-	        case WEST:
-	        	return SOUTH;
-    	}
-    	
-    	throw new IllegalArgumentException("somehow illegal argument") ;
-    }
-    
-    public Direction nextDoubleDirection() {
-    	switch (this) {
-        case NORTH:
-        	return SOUTH;
-        case EAST:
-        	return WEST;
-        case SOUTH:
-        	return NORTH; 
-        case WEST:
-        	return EAST;
-	}
-	
-	throw new IllegalArgumentException("somehow illegal argument") ;
-    }
-    
-    public Posn ballCW(Posn cur) { 
-    	switch (this) {
-        case NORTH:
-        	return new Posn(cur.getX() - 1, cur.getY() - 1); 
-        case EAST:
-        	 return new Posn(cur.getX() + 1, cur.getY() - 1);
-        case SOUTH:
-        	return new Posn(cur.getX() + 1,  cur.getY() + 1);
-        case WEST:
-        	return new Posn(cur.getX() - 1,  cur.getY() + 1);
-        
-        	
-    	}
-       	throw new IllegalArgumentException("nothing"); 
-
-    	}
-    	
-    public Posn ballCCW(Posn cur) { 
-       	switch (this) {
-       		case NORTH:
-            	return new Posn(cur.getX() + 1, cur.getY() - 1); 
+        switch (this) {
+            case NORTH:
+                return WEST;
             case EAST:
-            	 return new Posn(cur.getX() + 1, cur.getY() + 1);
+                return NORTH;
             case SOUTH:
-            	return new Posn(cur.getX() - 1,  cur.getY() + 1);
+                return EAST;
             case WEST:
-            	return new Posn(cur.getX() - 1,  cur.getY() - 1);
-    }	
-       	throw new IllegalArgumentException("nothing"); 
+                return SOUTH;
+        }
+
+        throw new IllegalArgumentException("somehow illegal argument");
     }
-    
+
+    /**
+     * Returns the direction opposite of the current.
+     *
+     * @return the opposite direction
+     * @throws IllegalArgumentException if the current direction is invalid
+     */
+    public Direction nextDoubleDirection() {
+        switch (this) {
+            case NORTH:
+                return SOUTH;
+            case EAST:
+                return WEST;
+            case SOUTH:
+                return NORTH;
+            case WEST:
+                return EAST;
+        }
+
+        throw new IllegalArgumentException("somehow illegal argument");
+    }
+
+    /**
+     * Returns the position of the ball causing a deflection clockwise.
+     *
+     * @param cur position of the ray being deflected.
+     * @return the position of the ball
+     * @throws IllegalArgumentException if the direction is not valid
+     */
+    public Posn ballCW(Posn cur) {
+        switch (this) {
+            case NORTH:
+                return new Posn(cur.getX() - 1, cur.getY() - 1);
+            case EAST:
+                return new Posn(cur.getX() + 1, cur.getY() - 1);
+            case SOUTH:
+                return new Posn(cur.getX() + 1, cur.getY() + 1);
+            case WEST:
+                return new Posn(cur.getX() - 1, cur.getY() + 1);
+
+
+        }
+        throw new IllegalArgumentException("nothing");
+
+    }
+
+	/**
+	 * Returns the position of the ball causing a deflection counterclockwise.
+	 *
+	 * @param cur position of the ray being deflected.
+	 * @throws IllegalArgumentException if the direction is not valid
+	 * @return the position of the ball
+	 */
+    public Posn ballCCW(Posn cur) {
+        switch (this) {
+            case NORTH:
+                return new Posn(cur.getX() + 1, cur.getY() - 1);
+            case EAST:
+                return new Posn(cur.getX() + 1, cur.getY() + 1);
+            case SOUTH:
+                return new Posn(cur.getX() - 1, cur.getY() + 1);
+            case WEST:
+                return new Posn(cur.getX() - 1, cur.getY() - 1);
+        }
+        throw new IllegalArgumentException("nothing");
+    }
+
+	/**
+	 * Returns the next position according to the current position and the direction of travel.
+	 *
+	 * @param cur the current position
+	 * @throws IllegalArgumentException if the direction is not valid
+	 * @return the next position
+	 */
     public Posn getNextPosn(Posn cur) {
-    	switch (this) {
-	    	case NORTH:
-	        	return new Posn(cur.getX(), cur.getY() - 1); 
-	        case EAST:
-	        	 return new Posn(cur.getX() + 1, cur.getY());
-	        case SOUTH:
-	        	return new Posn(cur.getX(),  cur.getY() + 1);
-	        case WEST:
-	        	return new Posn(cur.getX() - 1,  cur.getY());
-    	}
-       	throw new IllegalArgumentException("nothing"); 
+        switch (this) {
+            case NORTH:
+                return new Posn(cur.getX(), cur.getY() - 1);
+            case EAST:
+                return new Posn(cur.getX() + 1, cur.getY());
+            case SOUTH:
+                return new Posn(cur.getX(), cur.getY() + 1);
+            case WEST:
+                return new Posn(cur.getX() - 1, cur.getY());
+        }
+        throw new IllegalArgumentException("nothing");
 
     }
 }

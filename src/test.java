@@ -2,7 +2,6 @@ import org.logicng.formulas.Formula;
 import org.logicng.formulas.FormulaFactory;
 import org.logicng.io.parsers.ParserException;
 import org.logicng.io.parsers.PropositionalParser;
-
 import tester.*; 
 
 public class test {
@@ -77,10 +76,18 @@ public class test {
 		else
 			return expr.replaceAll(var, AHint.nil); 	
 	}
-	
-//	public void testSubstitute(Tester t) {
-//		t.checkExpect(substitute("P01", "Pasd", true), "P01"); 
-//		t.checkExpect(substitute("P01", "P01", true), AHint.t);
-//		t.checkExpect(substitute("P01", "P01", false), AHint.nil); 
-//	}
+
+	/*
+	public void testSubstitute(Tester t) {
+		t.checkExpect(substitute("P01", "Pasd", true), "P01");
+		t.checkExpect(substitute("P01", "P01", true), AHint.t);
+		t.checkExpect(substitute("P01", "P01", false), AHint.nil);
+	}*/
+
+
+	public void testSubstitute() {
+		assertEquals(substitute("P01", "Pasd", true), "P01");
+		assertEquals(substitute("P01", "P01", true), AHint.t);
+		assertEquals(substitute("P01", "P01", false), AHint.nil);
+	}
 }
