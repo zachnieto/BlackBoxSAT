@@ -50,9 +50,12 @@ public class Exit extends AHint {
 		}
 		else {
 			if(this.startPos.equals(this.endPos)) {
-				return String.format("((P%d%d | P%d%d) & ~P%d%d) | (", this.dir.ballCW(this.startPos).getX(), this.dir.ballCW(this.startPos).getY(),
-					    								   this.dir.ballCCW(this.startPos).getX(), this.dir.ballCCW(this.startPos).getY(),
-					    								   this.dir.getNextPosn(this.startPos).getX(), this.dir.getNextPosn(this.startPos).getY()) 
+				return String.format("((P%d%d | P%d%d) & ~P%d%d) | (", this.dir.ballCW(this.startPos).getX(),
+																	   this.dir.ballCW(this.startPos).getY(),
+																	   this.dir.ballCCW(this.startPos).getX(),
+																	   this.dir.ballCCW(this.startPos).getY(),
+																	   this.dir.getNextPosn(this.startPos).getX(),
+																	   this.dir.getNextPosn(this.startPos).getY()) 
 					+ new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>())
 					+ ")"; 
 			}
@@ -69,7 +72,7 @@ public class Exit extends AHint {
 	public String generate(ArrayList<AHint> checked) {
 		 if (checked.contains(this)) {
 		      return AHint.nil;
-		    }
+		 }
 		    
 		 checked.add(this);
 
