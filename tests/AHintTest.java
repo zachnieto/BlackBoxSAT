@@ -34,18 +34,18 @@ class AHintTest {
         AHint satHint11 = new Exit(3, new Posn(1, -1), Direction.SOUTH, new Posn(1, -1), new Posn(1, -1));
         AHint satHint12 = new Exit(3, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 0));
         
-        AHint bigSat1 = new Exit(5, new Posn(-1, 0), Direction.EAST, new Posn(-1, 0), new Posn(0, -1)); 
-        AHint bigSat2 = new Hit(5, new Posn(-1, 1), Direction.EAST); 
-        AHint bigSat3 = new Hit(5, new Posn(-1, 2), Direction.EAST); 
-        AHint bigSat4 = new Exit(5, new Posn(-1, 3), Direction.EAST, new Posn(-1, 3), new Posn(-1, 3)); 
-        AHint bigSat5 = new Hit(5, new Posn(-1, 4), Direction.EAST); 
-        AHint bigSat6 = new Hit(5, new Posn(0, 5), Direction.NORTH); 
-        AHint bigSat7 = new Exit(5, new Posn(1, 5), Direction.NORTH, new Posn(1, 5), new Posn(1, 5)); 
-        AHint bigSat8 = new Hit(5, new Posn(2, 5), Direction.NORTH); 
-        AHint bigSat9 = new Hit(5, new Posn(3, 5), Direction.NORTH); 
-        AHint bigSat10 = new Exit(5, new Posn(4, 5), Direction.NORTH, new Posn(4, 5), new Posn(5, 3)); 
-        AHint bigSat11 = new Hit(5, new Posn(5, 4), Direction.WEST); 
-        AHint bigSat12 = new Exit(5, new Posn(5, 3), Direction.WEST, new Posn(5, 3), new Posn(4, 5)); 
+        AHint bigSat1 = new Exit(5, new Posn(-1, 0), Direction.EAST, new Posn(-1, 0), new Posn(0, -1)); //yes
+        AHint bigSat2 = new Hit(5, new Posn(-1, 1), Direction.EAST); // yes
+        AHint bigSat3 = new Hit(5, new Posn(-1, 2), Direction.EAST); // yes
+        AHint bigSat4 = new Exit(5, new Posn(-1, 3), Direction.EAST, new Posn(-1, 3), new Posn(-1, 3)); // yes
+        AHint bigSat5 = new Hit(5, new Posn(-1, 4), Direction.EAST); // yes
+        AHint bigSat6 = new Hit(5, new Posn(0, 5), Direction.NORTH); // yes
+        AHint bigSat7 = new Exit(5, new Posn(1, 5), Direction.NORTH, new Posn(1, 5), new Posn(1, 5));  // yes
+        AHint bigSat8 = new Hit(5, new Posn(2, 5), Direction.NORTH); // yes
+        AHint bigSat9 = new Hit(5, new Posn(3, 5), Direction.NORTH); // yes
+        AHint bigSat10 = new Exit(5, new Posn(4, 5), Direction.NORTH, new Posn(4, 5), new Posn(5, 3)); // yes
+        AHint bigSat11 = new Hit(5, new Posn(5, 4), Direction.WEST); // yes
+        AHint bigSat12 = new Exit(5, new Posn(5, 3), Direction.WEST, new Posn(5, 3), new Posn(4, 5)); // yes
         AHint bigSat13 = new Hit(5, new Posn(5, 2), Direction.WEST); 
         AHint bigSat14 = new Exit(5, new Posn(5, 1), Direction.WEST, new Posn(5, 1), new Posn(4, -1)); 
         AHint bigSat15 = new Exit(5, new Posn(5, 0), Direction.WEST, new Posn(5, 0), new Posn(2, -1)); 
@@ -53,12 +53,14 @@ class AHintTest {
         AHint bigSat17 = new Hit(5, new Posn(3, -1), Direction.SOUTH); 
         AHint bigSat18 = new Exit(5, new Posn(2, -1), Direction.SOUTH, new Posn(2, -1), new Posn(5, 0)); 
         AHint bigSat19 = new Hit(5, new Posn(1, -1), Direction.SOUTH); 
+
         AHint bigSat20 = new Exit(5, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 0));  
+
+        
         
         AHint[] unSatHints = {unsatHint1, unsatHint2, unsatHint3, unsatHint4}; 
         AHint[] satHints = {satHint1, satHint2, satHint3, satHint4, satHint5, satHint6, satHint7, satHint8, satHint9, satHint10, satHint11, satHint12};
         AHint[] bigBoard = {bigSat1, bigSat2, bigSat3, bigSat4, bigSat5, bigSat6, bigSat7, bigSat8, bigSat9, bigSat10, bigSat11, bigSat12, bigSat13, bigSat14, bigSat15, bigSat16, bigSat17, bigSat18, bigSat19, bigSat20};
-        
        
         BBGame unsatEx1 = new BBGame("unsat 3x3", unSatHints); 
         BBGame satEx2 = new BBGame("sat 3x3", satHints);
@@ -93,6 +95,7 @@ class AHintTest {
         booleanForm = substitute(booleanForm, "P33", false);
         booleanForm = substitute(booleanForm, "P34", false);
         
+
         booleanForm = substitute(booleanForm, "P40", false);
         booleanForm = substitute(booleanForm, "P41", false);
         booleanForm = substitute(booleanForm, "P42", false);
@@ -100,6 +103,14 @@ class AHintTest {
         booleanForm = substitute(booleanForm, "P44", false);
         
         //System.out.println(BooleanToCNF.satSolve(booleanForm)); 
+
+        //unsatEx1.consistent();
+        //satEx2.consistent();
+        //satEx2.display();
+        bigGame.consistent();
+        bigGame.display();
+
+
 
     }
 

@@ -6,12 +6,13 @@ import org.logicng.io.parsers.ParserException;
 import org.logicng.io.parsers.PropositionalParser;
 import org.logicng.solvers.MiniSat;
 import org.logicng.solvers.SATSolver;
-import java.util.*; 
 
 /**
  * This class can convert boolean strings to CNF expression, and also SatSolve expressions.
  */
 public class BooleanToCNF {
+
+    static Assignment model;
 
     /**
      * Converts the given expression to a CNF formula.
@@ -45,13 +46,25 @@ public class BooleanToCNF {
         final SATSolver miniSat = MiniSat.miniSat(f);
         miniSat.add(cnf);
         Tristate result = miniSat.sat();
-        
+
+
+        model = miniSat.model();
+
+        /*
         List<Assignment> assignments = miniSat.enumerateAllModels();
         for (int i = 0; i < assignments.size(); i++) {
         	System.out.println("\tPossible Assignment: \t\t" + assignments.get(i).literals());
-        }
+          }*/
         
         return result;
+    }
+
+    /**
+     * Gets the model assignment.
+     * @return the model
+     */
+    static Assignment getModel() {
+        return model;
     }
 
 
