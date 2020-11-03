@@ -85,7 +85,7 @@ public abstract class AHint {
             return true;
         }
 
-        if (!(other instanceof Hit)) {
+        if (!(other instanceof AHint)) {
             return false;
         }
 

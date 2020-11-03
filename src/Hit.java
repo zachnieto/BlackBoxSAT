@@ -17,7 +17,7 @@ public class Hit extends AHint {
     }
 
     @Override
-	public String generate() { //TODO: order of operations 
+	public String generate() {
     	if(this.outOfBounds(this.dir.ballCCW(this.position))) {
     		return String.format("(~P%d%d) & (", this.dir.ballCW(this.position).getX(), this.dir.ballCW(this.position).getY())
     			+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(new ArrayList<>())
@@ -71,19 +71,19 @@ public class Hit extends AHint {
 					this.position.getX(), this.position.getY(), 
 					ballCW.getX(), ballCW.getY(),
 					ballCCW.getX(), ballCCW.getY())
-				+ new Hit(this.boardDim, dir.getNextPosn(this.position), this.dir).generate(checked)
+				+ new Hit(this.boardDim, dir.getNextPosn(this.position), this.dir).generate(new ArrayList<>(checked))
 				+ ")"
 				
 				+ String.format(" & ((P%d%d & ~P%d%d) => ",
 						ballCW.getX(), ballCW.getY(), 
 						ballCCW.getX(), ballCCW.getY())
-				+ new Hit(this.boardDim, this.dir.nextClockwiseDirection().getNextPosn(this.position), this.dir.nextClockwiseDirection()).generate(checked)
+				+ new Hit(this.boardDim, this.dir.nextClockwiseDirection().getNextPosn(this.position), this.dir.nextClockwiseDirection()).generate(new ArrayList<>(checked))
 				+ ")"
 				
 				+ String.format(" & ((~P%d%d & P%d%d) => ",
 						ballCW.getX(), ballCW.getY(), 
 						ballCCW.getX(), ballCCW.getY())
-				+ new Hit(this.boardDim, this.dir.nextCounterClockwiseDirection().getNextPosn(this.position), this.dir.nextCounterClockwiseDirection()).generate(checked)
+				+ new Hit(this.boardDim, this.dir.nextCounterClockwiseDirection().getNextPosn(this.position), this.dir.nextCounterClockwiseDirection()).generate(new ArrayList<>(checked))
 				+ ")"
 				+ String.format(" & ((P%d%d & P%d%d) => " + AHint.nil + ")",
 						ballCW.getX(), ballCW.getY(), 
