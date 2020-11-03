@@ -42,33 +42,44 @@ public class BBGame {
 		
 		System.out.println("Name: " + this.name);
         System.out.println("\tRaw Expression:\t\t\t" + expr);
-		
 		if(!fast) {
 			final FormulaFactory f = new FormulaFactory();
 	        final PropositionalParser p = new PropositionalParser(f);
 	        final Formula formula = p.parse(expr);
+	        
+	        this.cnfString = formula.cnf().toString(); 
+	        
 	        System.out.println("\tSimplified Expression:\t\t" + formula.toString());
-	        System.out.println("\tCNF Conversion:\t\t\t" + formula.cnf().toString()); 
+	        System.out.println("\tCNF Conversion:\t\t\t" + cnfString); 
 		}
           
         System.out.println("\tIs Consistent?:\t\t" + BooleanToCNF.satSolve(expr));
         System.out.println();
+        if(!fast) {
+        	try {this.display(); }
+        	catch(Exception e) { System.out.println("No model found: board is possibly unsatisfiable");}
+        }
+        else
+        	System.out.println("\tTo see any potential models, try running with consistent(!fast) - however, this will negatively affect runtime");
 	}
 	
 	public void consistent() throws ParserException {
 		this.consistent(true); 
-  }  
+    }  
 
 	/**
-	 * Displays the solution to the board based on the given hints.
+	 * Displays a solution to the board based on the given hints 
 	 * @throws IllegalStateException if the board hasn't been checked
 	 */
-	public void display() {
+	private void display() {
 		if (cnfString == null) {
 			throw new IllegalStateException("Board must be checked with consistent() first");
 		}
 
 		Assignment model = BooleanToCNF.getModel();
+		if(model == null) {
+			throw new NullPointerException("No model found - board is possibly unsatisfiable. ");
+		}
 		SortedSet<Literal> literals = model.literals();
 
 		int sideLength = (int) Math.sqrt(literals.size());
