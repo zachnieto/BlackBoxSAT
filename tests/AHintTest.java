@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AHintTest {
 	
     @Test
-    void testExamples() {
+    void testExamples() throws ParserException {
 
     	AHint unsatHint1 = new Exit(3, new Posn(-1, 1), Direction.EAST, new Posn(-1, 1), new Posn(1, -1));
 		AHint unsatHint2 = new Hit(3, new Posn(-1, 1), Direction.EAST);
@@ -32,57 +32,57 @@ class AHintTest {
         AHint satHint10 = new Hit(3, new Posn(2, -1), Direction.SOUTH);
         AHint satHint11 = new Exit(3, new Posn(1, -1), Direction.SOUTH, new Posn(1, -1), new Posn(1, -1));
         AHint satHint12 = new Exit(3, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 0));
-
-        //AHint[] hints = {unsatHint1, unsatHint2, unsatHint3, unsatHint4}; 
-        AHint[] hints = {satHint1, satHint2, satHint3, satHint4, satHint5, satHint6, satHint7, satHint8, satHint9, satHint10, satHint11, satHint12};
-
-        String megaExpr = "";
-        for (int i = 0; i < hints.length; i++) {
-            megaExpr += "(" + hints[i].generate() + ") & ";
-        }
-        megaExpr += AHint.t;
-
+        
+        AHint bigSat1 = new Exit(5, new Posn(-1, 0), Direction.EAST, new Posn(-1, 0), new Posn(0, -1)); 
+        AHint bigSat2 = new Hit(5, new Posn(-1, 1), Direction.EAST); 
+        AHint bigSat3 = new Hit(5, new Posn(-1, 2), Direction.EAST); 
+        AHint bigSat4 = new Exit(5, new Posn(-1, 3), Direction.EAST, new Posn(-1, 3), new Posn(-1, 3)); 
+        AHint bigSat5 = new Hit(5, new Posn(-1, 4), Direction.EAST); 
+        AHint bigSat6 = new Hit(5, new Posn(0, 5), Direction.NORTH); 
+        AHint bigSat7 = new Exit(5, new Posn(1, 5), Direction.NORTH, new Posn(1, 5), new Posn(1, 5)); 
+        AHint bigSat8 = new Hit(5, new Posn(2, 5), Direction.NORTH); 
+        AHint bigSat9 = new Hit(5, new Posn(3, 5), Direction.NORTH); 
+        AHint bigSat10 = new Exit(5, new Posn(4, 5), Direction.NORTH, new Posn(4, 5), new Posn(5, 3)); 
+        AHint bigSat11 = new Hit(5, new Posn(5, 4), Direction.WEST); 
+        AHint bigSat12 = new Exit(5, new Posn(5, 3), Direction.WEST, new Posn(5, 3), new Posn(4, 5)); 
+        AHint bigSat13 = new Hit(5, new Posn(5, 2), Direction.WEST); 
+        AHint bigSat14 = new Exit(5, new Posn(5, 1), Direction.WEST, new Posn(5, 1), new Posn(4, -1)); 
+        AHint bigSat15 = new Exit(5, new Posn(5, 0), Direction.WEST, new Posn(5, 0), new Posn(2, -1)); 
+        AHint bigSat16 = new Exit(5, new Posn(4, -1), Direction.SOUTH, new Posn(4, -1), new Posn(5, 1)); 
+        AHint bigSat17 = new Hit(5, new Posn(3, -1), Direction.SOUTH); 
+        AHint bigSat18 = new Exit(5, new Posn(2, -1), Direction.SOUTH, new Posn(2, -1), new Posn(5, 0)); 
+        AHint bigSat19 = new Hit(5, new Posn(1, -1), Direction.SOUTH); 
+        AHint bigSat20 = new Exit(5, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 1)); 
+        
+        AHint bigHit = new Exit(8, new Posn(2, -1), Direction.SOUTH, new Posn(2, -1), new Posn(-1, 6)); 
+        
+        AHint[] unSatHints = {unsatHint1, unsatHint2, unsatHint3, unsatHint4}; 
+        AHint[] satHints = {satHint1, satHint2, satHint3, satHint4, satHint5, satHint6, satHint7, satHint8, satHint9, satHint10, satHint11, satHint12};
+        AHint[] bigBoard = {bigSat1, bigSat2, bigSat3, bigSat4, bigSat5, bigSat6, bigSat7, bigSat8, bigSat9, bigSat10, bigSat11, bigSat12, bigSat13, bigSat14, bigSat15, bigSat16, bigSat17, bigSat18, bigSat19, bigSat20};
+        
+        BBGame bigGame = new BBGame("sat 5x5", bigBoard); 
+        
+        BBGame unsatEx1 = new BBGame("unsat 3x3", unSatHints); 
+        BBGame satEx2 = new BBGame("sat 3x3", satHints);
+        
+//        unsatEx1.consistent(); 
+//        satEx2.consistent(); 
+        bigGame.consistent(); 
+        
         //System.out.println(substitute("P01", "P01", true));
-        String booleanForm = substitute(satHint8.generate(), "P01", false);
-        booleanForm = substitute(booleanForm, "P00", false);
-        booleanForm = substitute(booleanForm, "P02", false);
-        booleanForm = substitute(booleanForm, "P10", false);
-        booleanForm = substitute(booleanForm, "P11", true);
-        booleanForm = substitute(booleanForm, "P12", false);
-        booleanForm = substitute(booleanForm, "P20", true);
-        booleanForm = substitute(booleanForm, "P21", false);
-        booleanForm = substitute(booleanForm, "P22", false);
-
-
-        try {   
-        	
-        	//System.out.println(satHint8.generate());
-        	
-            booleanForm = megaExpr;
-            System.out.println(booleanForm);
-
-            final FormulaFactory f = new FormulaFactory();
-            final PropositionalParser p = new PropositionalParser(f);
-            final Formula formula = p.parse(booleanForm);
-
-            System.out.println(BooleanToCNF.satSolve(booleanForm));
-
-            System.out.println(formula.toString());
-            System.out.println(formula.cnf().toString());
-        } catch (
-                ParserException e) {
-            e.printStackTrace();
-        }
+//        String booleanForm = substitute(satEx2.generateAllHints(), "P01", false);
+//        booleanForm = substitute(booleanForm, "P00", false);
+//        booleanForm = substitute(booleanForm, "P02", false);
+//        booleanForm = substitute(booleanForm, "P10", false);
+//        booleanForm = substitute(booleanForm, "P11", true);
+//        booleanForm = substitute(booleanForm, "P12", false);
+//        booleanForm = substitute(booleanForm, "P20", true);
+//        booleanForm = substitute(booleanForm, "P21", false);
+//        booleanForm = substitute(booleanForm, "P22", false);
+//        
+        //System.out.println(BooleanToCNF.satSolve(bigHit.generate())); 
 
     }
-
-
-	/*
-	public void testSubstitute(Tester t) {
-		t.checkExpect(substitute("P01", "Pasd", true), "P01");
-		t.checkExpect(substitute("P01", "P01", true), AHint.t);
-		t.checkExpect(substitute("P01", "P01", false), AHint.nil);
-	}*/
 
     @Test
     public void testSubstitute() {

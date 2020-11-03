@@ -49,7 +49,7 @@ public class Hit extends AHint {
 	    // get the position of a ball that would deflect the ray from counterclockwise
 	    Posn ballCCW = this.dir.ballCCW(this.position);
 	    
-		if( this.outOfBounds(ballCW) && this.outOfBounds(ballCCW)   )
+		if(this.outOfBounds(ballCW) && this.outOfBounds(ballCCW))
 			return "P" + this.position.getX() + this.position.getY();
 		else if ( this.outOfBounds(ballCW)  ) {
 			return String.format("(P%d%d | ((P%d%d => " + AHint.nil + ") & (~P%d%d => ",
@@ -71,15 +71,20 @@ public class Hit extends AHint {
 					this.position.getX(), this.position.getY(), 
 					ballCW.getX(), ballCW.getY(),
 					ballCCW.getX(), ballCCW.getY())
-				+ new Hit(this.boardDim, dir.getNextPosn(this.position), this.dir).generate(checked) + ")"
+				+ new Hit(this.boardDim, dir.getNextPosn(this.position), this.dir).generate(checked)
+				+ ")"
+				
 				+ String.format(" & ((P%d%d & ~P%d%d) => ",
 						ballCW.getX(), ballCW.getY(), 
 						ballCCW.getX(), ballCCW.getY())
-				+ new Hit(this.boardDim, this.dir.nextClockwiseDirection().getNextPosn(this.position), this.dir.nextClockwiseDirection()).generate(checked) + ")"
+				+ new Hit(this.boardDim, this.dir.nextClockwiseDirection().getNextPosn(this.position), this.dir.nextClockwiseDirection()).generate(checked)
+				+ ")"
+				
 				+ String.format(" & ((~P%d%d & P%d%d) => ",
 						ballCW.getX(), ballCW.getY(), 
 						ballCCW.getX(), ballCCW.getY())
-				+ new Hit(this.boardDim, this.dir.nextCounterClockwiseDirection().getNextPosn(this.position), this.dir.nextCounterClockwiseDirection()).generate(checked) + ")"
+				+ new Hit(this.boardDim, this.dir.nextCounterClockwiseDirection().getNextPosn(this.position), this.dir.nextCounterClockwiseDirection()).generate(checked)
+				+ ")"
 				+ String.format(" & ((P%d%d & P%d%d) => " + AHint.nil + ")",
 						ballCW.getX(), ballCW.getY(), 
 						ballCCW.getX(), ballCCW.getY()) + ")"; 

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * Represents an Abstract Hint, which can be a Hit, Exit, Deflection, or a Double Deflection.
+ * Represents an Abstract Hint, which can be a Hit or Exit
  */
 public abstract class AHint {
     public final static String t = "(A | ~A)";
