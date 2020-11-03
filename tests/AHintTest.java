@@ -11,8 +11,25 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class AHintTest {
 	
+
+    /**
+     * Substitutes each occurrence of var in the expression with the b value.
+     * Used to make testing certain ball configurations more convenient, but has no value in the main code suite.  
+     * 
+     * @param expr expression to have replacements.
+     * @param var variable to be replaced
+     * @param b value to be inserted
+     * @return the new substituted expression
+     */
+    public static String substitute(String expr, String var, boolean b) {
+        if (b)
+            return expr.replaceAll(var, AHint.t);
+        else
+            return expr.replaceAll(var, AHint.nil);
+    }
+	
     @Test
-    void testExamples() throws ParserException {
+    void testBoards() throws ParserException {
     	final boolean fast = true; 
     	
     	AHint unsatHint1 = new Exit(3, new Posn(-1, 1), Direction.EAST, new Posn(-1, 1), new Posn(1, -1));
@@ -53,7 +70,6 @@ class AHintTest {
         AHint bigSat17 = new Hit(5, new Posn(3, -1), Direction.SOUTH); 
         AHint bigSat18 = new Exit(5, new Posn(2, -1), Direction.SOUTH, new Posn(2, -1), new Posn(5, 0)); 
         AHint bigSat19 = new Hit(5, new Posn(1, -1), Direction.SOUTH); 
-
         AHint bigSat20 = new Exit(5, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 0));  
 
         
@@ -67,8 +83,14 @@ class AHintTest {
         BBGame bigGame = new BBGame("sat 5x5", bigBoard); 
         
         unsatEx1.consistent(!fast); 
+        
+        System.out.println();
+        
         satEx2.consistent(!fast); 
-        bigGame.consistent(fast);
+        
+        System.out.println();
+        
+        //bigGame.consistent(fast);
         
         String booleanForm = bigSat8.generate(); 
         booleanForm = substitute(booleanForm, "P00", false);
@@ -95,22 +117,11 @@ class AHintTest {
         booleanForm = substitute(booleanForm, "P33", false);
         booleanForm = substitute(booleanForm, "P34", false);
         
-
         booleanForm = substitute(booleanForm, "P40", false);
         booleanForm = substitute(booleanForm, "P41", false);
         booleanForm = substitute(booleanForm, "P42", false);
         booleanForm = substitute(booleanForm, "P43", false);
         booleanForm = substitute(booleanForm, "P44", false);
-        
-        //System.out.println(BooleanToCNF.satSolve(booleanForm)); 
-
-        //unsatEx1.consistent();
-        //satEx2.consistent();
-        //satEx2.display();
-        bigGame.consistent();
-        bigGame.display();
-
-
 
     }
 
@@ -120,21 +131,25 @@ class AHintTest {
         assertEquals(substitute("P01", "P01", true), AHint.t);
         assertEquals(substitute("P01", "P01", false), AHint.nil);
     }
-
-    /**
-     * Substitutes each occurrence of var in the expression with the b value.
-     * Used to make testing easier, but has no value in the main code suite.  
-     * 
-     * @param expr expression to have replacements.
-     * @param var variable to be replaced
-     * @param b value to be inserted
-     * @return the new substituted expression
-     */
-    public static String substitute(String expr, String var, boolean b) {
-        if (b)
-            return expr.replaceAll(var, AHint.t);
-        else
-            return expr.replaceAll(var, AHint.nil);
+    
+    @Test
+    public void testDirectionChanges() {
+    	assertEquals(Direction.EAST.nextClockwiseDirection(), Direction.SOUTH);
+    	assertEquals(Direction.SOUTH.nextClockwiseDirection(), Direction.WEST);
+    	assertEquals(Direction.WEST.nextClockwiseDirection(), Direction.NORTH);
+    	assertEquals(Direction.NORTH.nextClockwiseDirection(), Direction.EAST);
+    	assertEquals(Direction.EAST.nextCounterClockwiseDirection(), Direction.NORTH);
+    	assertEquals(Direction.SOUTH.nextCounterClockwiseDirection(), Direction.EAST);
+    	assertEquals(Direction.WEST.nextCounterClockwiseDirection(), Direction.SOUTH);
+    	assertEquals(Direction.NORTH.nextCounterClockwiseDirection(), Direction.WEST);
     }
+    
+    @Test
+    public void testGetNextPosn() { //TODO: more tests 
+    	assertEquals(Direction.EAST.getNextPosn(new Posn(0, 0)), new Posn(1, 0)); 
+    	assertEquals(Direction.WEST.getNextPosn(new Posn(1, 0)), new Posn(0, 0)); 
+    }
+    
+    
 
 }
