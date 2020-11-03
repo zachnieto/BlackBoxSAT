@@ -13,7 +13,8 @@ class AHintTest {
 	
     @Test
     void testExamples() throws ParserException {
-
+    	final boolean fast = true; 
+    	
     	AHint unsatHint1 = new Exit(3, new Posn(-1, 1), Direction.EAST, new Posn(-1, 1), new Posn(1, -1));
 		AHint unsatHint2 = new Hit(3, new Posn(-1, 1), Direction.EAST);
 		AHint unsatHint3 = new Hit(3, new Posn(0, -1), Direction.SOUTH);
@@ -52,37 +53,64 @@ class AHintTest {
         AHint bigSat17 = new Hit(5, new Posn(3, -1), Direction.SOUTH); 
         AHint bigSat18 = new Exit(5, new Posn(2, -1), Direction.SOUTH, new Posn(2, -1), new Posn(5, 0)); 
         AHint bigSat19 = new Hit(5, new Posn(1, -1), Direction.SOUTH); 
-        AHint bigSat20 = new Exit(5, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 0));
+
+        AHint bigSat20 = new Exit(5, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 0));  
+
         
-        AHint bigHit = new Exit(8, new Posn(2, -1), Direction.SOUTH, new Posn(2, -1), new Posn(-1, 6)); 
         
         AHint[] unSatHints = {unsatHint1, unsatHint2, unsatHint3, unsatHint4}; 
         AHint[] satHints = {satHint1, satHint2, satHint3, satHint4, satHint5, satHint6, satHint7, satHint8, satHint9, satHint10, satHint11, satHint12};
         AHint[] bigBoard = {bigSat1, bigSat2, bigSat3, bigSat4, bigSat5, bigSat6, bigSat7, bigSat8, bigSat9, bigSat10, bigSat11, bigSat12, bigSat13, bigSat14, bigSat15, bigSat16, bigSat17, bigSat18, bigSat19, bigSat20};
-        
-        BBGame bigGame = new BBGame("sat 5x5", bigBoard);
-        
+       
         BBGame unsatEx1 = new BBGame("unsat 3x3", unSatHints); 
         BBGame satEx2 = new BBGame("sat 3x3", satHints);
+        BBGame bigGame = new BBGame("sat 5x5", bigBoard); 
         
+        unsatEx1.consistent(!fast); 
+        satEx2.consistent(!fast); 
+        bigGame.consistent(fast);
+        
+        String booleanForm = bigSat8.generate(); 
+        booleanForm = substitute(booleanForm, "P00", false);
+        booleanForm = substitute(booleanForm, "P01", false);
+        booleanForm = substitute(booleanForm, "P02", false);
+        booleanForm = substitute(booleanForm, "P03", false);
+        booleanForm = substitute(booleanForm, "P04", true);
+        
+        booleanForm = substitute(booleanForm, "P10", false);
+        booleanForm = substitute(booleanForm, "P11", true);
+        booleanForm = substitute(booleanForm, "P12", false);
+        booleanForm = substitute(booleanForm, "P13", false);
+        booleanForm = substitute(booleanForm, "P14", false);
+        
+        booleanForm = substitute(booleanForm, "P20", false);
+        booleanForm = substitute(booleanForm, "P21", false);
+        booleanForm = substitute(booleanForm, "P22", false);
+        booleanForm = substitute(booleanForm, "P23", false);
+        booleanForm = substitute(booleanForm, "P24", false);
+        
+        booleanForm = substitute(booleanForm, "P30", false);
+        booleanForm = substitute(booleanForm, "P31", false);
+        booleanForm = substitute(booleanForm, "P32", true);
+        booleanForm = substitute(booleanForm, "P33", false);
+        booleanForm = substitute(booleanForm, "P34", false);
+        
+
+        booleanForm = substitute(booleanForm, "P40", false);
+        booleanForm = substitute(booleanForm, "P41", false);
+        booleanForm = substitute(booleanForm, "P42", false);
+        booleanForm = substitute(booleanForm, "P43", false);
+        booleanForm = substitute(booleanForm, "P44", false);
+        
+        //System.out.println(BooleanToCNF.satSolve(booleanForm)); 
+
         //unsatEx1.consistent();
         //satEx2.consistent();
         //satEx2.display();
         bigGame.consistent();
         bigGame.display();
 
-        //System.out.println(substitute("P01", "P01", true));
-//        String booleanForm = substitute(satEx2.generateAllHints(), "P01", false);
-//        booleanForm = substitute(booleanForm, "P00", false);
-//        booleanForm = substitute(booleanForm, "P02", false);
-//        booleanForm = substitute(booleanForm, "P10", false);
-//        booleanForm = substitute(booleanForm, "P11", true);
-//        booleanForm = substitute(booleanForm, "P12", false);
-//        booleanForm = substitute(booleanForm, "P20", true);
-//        booleanForm = substitute(booleanForm, "P21", false);
-//        booleanForm = substitute(booleanForm, "P22", false);
-//        
-        //System.out.println(BooleanToCNF.satSolve(bigHit.generate())); 
+
 
     }
 

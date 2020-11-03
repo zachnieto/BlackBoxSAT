@@ -22,34 +22,42 @@ public class BBGame {
 	 * @return All hints as a string
 	 */
 	public String generateAllHints() {
-		StringBuilder expr = new StringBuilder();
-		for(AHint hint : this.hints) {
-			expr.append(hint.generate()).append(" & ");
+		String expr = "";
+		for(int i = 0; i < this.hints.length; i++) {
+			expr += "(" + this.hints[i].generate() + ") & "; 
 		}
-		expr.append(AHint.t);
-		
-		return expr.toString();
-	}
 
-	/**
+		expr += "(" + AHint.t + ")"; 
+
+		
+		return expr;
+	}
+	
+  	/**
 	 * Prints all information expression and the satisfiability of the game.
 	 * @throws ParserException if the expression cannot be parsed
 	 */
-	public void consistent() throws ParserException {
+	public void consistent(boolean fast) throws ParserException {
 		String expr = this.generateAllHints(); 
-
-		final FormulaFactory f = new FormulaFactory();
-        final PropositionalParser p = new PropositionalParser(f);
-        final Formula formula = p.parse(expr);
-            
-        System.out.println("Name: " + this.name);
+		
+		System.out.println("Name: " + this.name);
         System.out.println("\tRaw Expression:\t\t\t" + expr);
-        System.out.println("\tSimplified Expression:\t\t" + formula.toString());
-        cnfString = formula.cnf().toString();
-        System.out.println("\tCNF Conversion:\t\t\t" + cnfString);
+		
+		if(!fast) {
+			final FormulaFactory f = new FormulaFactory();
+	        final PropositionalParser p = new PropositionalParser(f);
+	        final Formula formula = p.parse(expr);
+	        System.out.println("\tSimplified Expression:\t\t" + formula.toString());
+	        System.out.println("\tCNF Conversion:\t\t\t" + formula.cnf().toString()); 
+		}
+          
         System.out.println("\tIs Consistent?:\t\t" + BooleanToCNF.satSolve(expr));
         System.out.println();
 	}
+	
+	public void consistent() throws ParserException {
+		this.consistent(true); 
+  }  
 
 	/**
 	 * Displays the solution to the board based on the given hints.

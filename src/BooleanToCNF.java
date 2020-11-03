@@ -47,6 +47,7 @@ public class BooleanToCNF {
         miniSat.add(cnf);
         Tristate result = miniSat.sat();
 
+
         model = miniSat.model();
 
         /*
