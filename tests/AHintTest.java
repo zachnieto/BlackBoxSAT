@@ -1,15 +1,19 @@
 import org.junit.jupiter.api.Test;
-import org.logicng.formulas.Formula;
-import org.logicng.formulas.FormulaFactory;
 import org.logicng.io.parsers.ParserException;
-import org.logicng.io.parsers.PropositionalParser;
+
+import com.pholser.junit.quickcheck.From;
+import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
+import org.junit.runner.RunWith;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * Testing class for AHints.
  */
-class AHintTest {
+@RunWith(JUnitQuickcheck.class)
+public class AHintTest {
 	
 
     /**
@@ -31,12 +35,12 @@ class AHintTest {
     @Test
     void testBoards() throws ParserException {
     	final boolean fast = true; 
+    	final boolean slow = !fast; 
     	
     	AHint unsatHint1 = new Exit(3, new Posn(-1, 1), Direction.EAST, new Posn(-1, 1), new Posn(1, -1));
 		AHint unsatHint2 = new Hit(3, new Posn(-1, 1), Direction.EAST);
 		AHint unsatHint3 = new Hit(3, new Posn(0, -1), Direction.SOUTH);
 		AHint unsatHint4 = new Exit(3, new Posn(-1, 2), Direction.EAST, new Posn(-1, 2), new Posn(3, 2));
-    	
     	
         AHint satHint1 = new Exit(3, new Posn(-1, 0), Direction.EAST, new Posn(-1, 0), new Posn(0, -1));
         AHint satHint2 = new Hit(3, new Posn(-1, 1), Direction.EAST);
@@ -71,8 +75,6 @@ class AHintTest {
         AHint bigSat18 = new Exit(5, new Posn(2, -1), Direction.SOUTH, new Posn(2, -1), new Posn(5, 0)); 
         AHint bigSat19 = new Hit(5, new Posn(1, -1), Direction.SOUTH); 
         AHint bigSat20 = new Exit(5, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 0));  
-
-        
         
         AHint[] unSatHints = {unsatHint1, unsatHint2, unsatHint3, unsatHint4}; 
         AHint[] satHints = {satHint1, satHint2, satHint3, satHint4, satHint5, satHint6, satHint7, satHint8, satHint9, satHint10, satHint11, satHint12};
@@ -82,11 +84,11 @@ class AHintTest {
         BBGame satEx2 = new BBGame("sat 3x3", satHints);
         BBGame bigGame = new BBGame("sat 5x5", bigBoard); 
         
-        unsatEx1.consistent(!fast); 
+        unsatEx1.consistent(slow); 
         
         System.out.println();
         
-        satEx2.consistent(!fast); 
+        satEx2.consistent(slow); 
         
         System.out.println();
         
@@ -122,7 +124,6 @@ class AHintTest {
         booleanForm = substitute(booleanForm, "P42", false);
         booleanForm = substitute(booleanForm, "P43", false);
         booleanForm = substitute(booleanForm, "P44", false);
-
     }
 
     @Test
@@ -144,12 +145,123 @@ class AHintTest {
     	assertEquals(Direction.NORTH.nextCounterClockwiseDirection(), Direction.WEST);
     }
     
+    @Property
+    public void testDirectionProperties(Direction d) {
+    	assertEquals(d.nextClockwiseDirection()
+    				  .nextClockwiseDirection()
+    				  .nextClockwiseDirection()
+    				  .nextClockwiseDirection(), d); 
+    	assertEquals(d.nextCounterClockwiseDirection()
+				  	  .nextCounterClockwiseDirection()
+				      .nextCounterClockwiseDirection()
+				      .nextCounterClockwiseDirection(), d); 
+    	assertEquals(d.nextClockwiseDirection()
+    				  .nextClockwiseDirection()
+    				  .nextClockwiseDirection()
+    				  .nextClockwiseDirection(), 
+    				 d.nextCounterClockwiseDirection()
+				  	  .nextCounterClockwiseDirection()
+				      .nextCounterClockwiseDirection()
+				      .nextCounterClockwiseDirection()); 
+    }
+    
     @Test
     public void testGetNextPosn() { //TODO: more tests 
     	assertEquals(Direction.EAST.getNextPosn(new Posn(0, 0)), new Posn(1, 0)); 
-    	assertEquals(Direction.WEST.getNextPosn(new Posn(1, 0)), new Posn(0, 0)); 
+    	assertEquals(Direction.WEST.getNextPosn(new Posn(0, 0)), new Posn(-1, 0)); 
+    	assertEquals(Direction.SOUTH.getNextPosn(new Posn(0, 0)), new Posn(0, 1)); 
+    	assertEquals(Direction.NORTH.getNextPosn(new Posn(0, 0)), new Posn(0, -1)); 
+    	
+    	assertEquals(Direction.SOUTH.getNextPosn(new Posn(-234, 12300)), new Posn(-234, 12301));
+    	assertEquals(Direction.WEST.getNextPosn(new Posn (-234, 12300)), new Posn(-235, 12300)); 
     }
     
+    @Property
+    public void testGetNextPosnProperties(int x, int y) {
+    	assertEquals(Direction.EAST.getNextPosn(new Posn(x, y)), new Posn(x + 1, y)); 
+    	assertEquals(Direction.NORTH.getNextPosn(new Posn(x, y)), new Posn(x, y - 1));
+    	assertEquals(Direction.WEST.getNextPosn(new Posn(x, y)), new Posn(x - 1, y));
+    	assertEquals(Direction.SOUTH.getNextPosn(new Posn(x, y)), new Posn(x, y + 1));
+    }
     
+    @Test
+    public void testBallCW() {
+    	assertEquals(Direction.EAST.ballCW(new Posn(0, 0)), new Posn(1, -1)); 
+    	assertEquals(Direction.WEST.ballCW(new Posn(0, 0)), new Posn(-1, 1)); 
+    	assertEquals(Direction.SOUTH.ballCW(new Posn(0, 0)), new Posn(1, 1)); 
+    	assertEquals(Direction.NORTH.ballCW(new Posn(0, 0)), new Posn(-1, -1)); 
+    	
+    	assertEquals(Direction.NORTH.ballCW(new Posn(-999, 123)), new Posn(-1000, 122)); 
+    	assertEquals(Direction.SOUTH.ballCW(new Posn(100, -5987)), new Posn(101, -5986));
+    	assertEquals(Direction.EAST.ballCW(new Posn(89652, 15)), new Posn(89653, 14));
+    }
+    
+    @Property
+    public void testBallCWProperties(int x, int y) {
+    	assertEquals(Direction.EAST.ballCW(new Posn(x, y)), new Posn(x + 1, y - 1)); 
+    	assertEquals(Direction.WEST.ballCW(new Posn(x, y)), new Posn(x - 1, y + 1)); 
+    	assertEquals(Direction.SOUTH.ballCW(new Posn(x, y)), new Posn(x + 1, y + 1)); 
+    	assertEquals(Direction.NORTH.ballCW(new Posn(x, y)), new Posn(x - 1, y - 1));
+    }
+    
+    @Test
+    public void testBallCCW() {
+    	assertEquals(Direction.EAST.ballCCW(new Posn(0, 0)), new Posn(1, 1));
+    	assertEquals(Direction.WEST.ballCCW(new Posn(0, 0)), new Posn(-1, -1));
+    	assertEquals(Direction.NORTH.ballCCW(new Posn(0, 0)), new Posn(1, -1));
+    	assertEquals(Direction.SOUTH.ballCCW(new Posn(0, 0)), new Posn(-1, 1));
+    }
+    
+    @Property
+    public void testBallCCWProperties(int x, int y) {
+    	assertEquals(Direction.EAST.ballCCW(new Posn(x, y)), new Posn(x + 1, y + 1)); 
+    	assertEquals(Direction.WEST.ballCCW(new Posn(x, y)), new Posn(x - 1, y - 1)); 
+    	assertEquals(Direction.SOUTH.ballCCW(new Posn(x, y)), new Posn(x - 1, y + 1)); 
+    	assertEquals(Direction.NORTH.ballCCW(new Posn(x, y)), new Posn(x + 1, y - 1));
+    }
+    
+    @Property
+    public void testBallProperties(Direction d, @From(PosnGenerator.class) Posn p) {
+    	assertEquals(d.ballCW(p), d.nextCounterClockwiseDirection().ballCCW(p)); 
+    	assertEquals(d.ballCCW(p), d.nextClockwiseDirection().ballCW(p)); 
+    }
+    
+    @Test
+    public void testEquals() {
+    	assertEquals(new Hit(5, new Posn(0, 0), Direction.EAST).equals(new Hit(5, new Posn(0, 0), Direction.WEST)), false); 
+    	assertEquals(new Hit(4, new Posn(0, 0), Direction.EAST).equals(new Hit(5, new Posn(0, 0), Direction.EAST)), true); 
+    	assertEquals(new Hit(5, new Posn(1, 0), Direction.EAST).equals(new Hit(5, new Posn(0, 0), Direction.EAST)), false); 
+    	assertEquals(new Hit(5, new Posn(0, 0), Direction.EAST).equals(new Hit(5, new Posn(0, 0), Direction.EAST)), true);
+    	
+    	assertEquals(new Exit(5, new Posn(0, 0), Direction.EAST, new Posn(0, 0), new Posn(1, 1)) 
+				.equals(new Exit(5, new Posn(0, 0), Direction.WEST, new Posn(0, 0), new Posn(1, 1))), false); 
+    	assertEquals(new Exit(5, new Posn(0, 1), Direction.WEST, new Posn(0, 0), new Posn(1, 1)) 
+				.equals(new Exit(5, new Posn(0, 0), Direction.WEST, new Posn(0, 0), new Posn(1, 1))), false); 
+    	assertEquals(new Exit(3, new Posn(0, 0), Direction.WEST, new Posn(0, 0), new Posn(1, 1)) 
+				.equals(new Exit(5, new Posn(0, 0), Direction.WEST, new Posn(0, 0), new Posn(1, 1))), true); 
+    	assertEquals(new Exit(5, new Posn(0, 0), Direction.WEST, new Posn(0, 0), new Posn(1, 1)) 
+    				.equals(new Exit(5, new Posn(0, 0), Direction.WEST, new Posn(0, 0), new Posn(1, 1))), true); 
+    }
+    
+    @Property
+    public void testEqualsProperties(int bd, @From(PosnGenerator.class) Posn p, Direction d) {
+    	assertEquals(new Hit(bd, p, d).equals(new Exit(bd, p, d, p, p)), true); 
+    	assertEquals(new Hit(bd, p, d).equals(new Hit(bd, p, d)), true); 
+    	assertEquals(new Exit(bd, p, d, p, p).equals(new Exit(bd, p, d, p, p)), true); 
+    	
+    	assertEquals(new Hit(bd, p, d).equals(new Hit(bd, d.getNextPosn(p), d)), false); 
+    	assertEquals(new Exit(bd, p, d, p, p).equals(new Exit(bd, p, d, d.getNextPosn(p), d.getNextPosn(d.getNextPosn(p)))), true); 
+    	assertEquals(new Exit(bd, p, d, p, p).equals(new Exit(bd, d.getNextPosn(p), d, p, p)), false); 
+    }
+    
+    @Property
+    public void testOutOfBoundsProperties(int bd, @From(PosnGenerator.class) Posn p, Direction d) {
+    	assertEquals(new Hit(bd, p, d).outOfBounds(p), (p.getX() >= bd || p.getY() >= bd || p.getX() <= -1 || p.getY() <= -1)); 
+    	
+    	assertEquals(new Hit(bd, d.getNextPosn(p), d).outOfBounds(d.getNextPosn(p)), 
+    				 new Hit(bd, d.ballCW(p), d).outOfBounds(d.ballCW(p))); 
+    	assertEquals(new Hit(bd, d.getNextPosn(p), d).outOfBounds(d.getNextPosn(p)), 
+				     new Hit(bd, d.ballCCW(p), d).outOfBounds(d.ballCCW(p))); 
+    }
 
 }

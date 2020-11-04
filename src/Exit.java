@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * This class represents a ray that exits the board.
  */
 public class Exit extends AHint {
-	Posn startPos; //TODO: put this in AHint to use as starting location for hints (checking default generate case)
+	Posn startPos;
 	Posn endPos;
 
 	/**

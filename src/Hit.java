@@ -15,7 +15,7 @@ public class Hit extends AHint {
     Hit(int boardDim, Posn p, Direction dir) {
       super(boardDim, p, dir);
     }
-
+    
     @Override
 	public String generate() {
     	if(this.outOfBounds(this.dir.ballCCW(this.position))) {
