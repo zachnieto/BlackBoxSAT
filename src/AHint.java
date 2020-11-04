@@ -43,14 +43,14 @@ public abstract class AHint {
     }
 
     /**
-     * Initializes starting conditions and generates the rest of the expressions.
+     * Checks for any special starting conditions and revursively generates the characteristic expression for this board.
      *
      * @return the boolean expression
      */
     public abstract String generate();
 
     /**
-     * Generates all possible outcomes as a boolean expression.
+     * Helper for generate() that keeps track of hints that have already been checked to prevent cycles
      *
      * @param checked List of all checked cells
      * @return the boolean expression
@@ -58,27 +58,18 @@ public abstract class AHint {
     public abstract String generate(ArrayList<AHint> checked);
 
     /**
-     * Gets the next position according to the current position and the direction.
+     * Determines if the given position is off the board this hint is on.
      *
-     * @return the next position
-     */
-    public Posn getNextPosn() {
-        return dir.getNextPosn(this.position);
-    }
-
-    /**
-     * Determines if the given position is off the board.
-     *
-     * @param position position to be checked
+     * @param position - position to be checked
      * @return whether or not the position is valid
      */
     public boolean outOfBounds(Posn position) {
-        return position.getX() == -1
-                || position.getY() == -1
-                || position.getX() == this.boardDim
-                || position.getY() == this.boardDim;
+        return position.getX() <= -1
+                || position.getY() <= -1
+                || position.getX() >= this.boardDim
+                || position.getY() >= this.boardDim;
     }
-
+    
     @Override
     public boolean equals(Object other) {
         if (this == other) {
@@ -89,6 +80,7 @@ public abstract class AHint {
             return false;
         }
 
+        //two hints are equal iff they have the same position and direction. 
         AHint other1 = (AHint) other;
         return other1.position.getX() == this.position.getX()
                 && other1.position.getY() == this.position.getY()

@@ -34,7 +34,7 @@ public class BBGame {
 	}
 	
   	/**
-	 * Prints all information expression and the satisfiability of the game.
+	 * Prints all information, including the characteristic expression and the satisfiability of the game.
 	 * @throws ParserException if the expression cannot be parsed
 	 */
 	public void consistent(boolean fast) throws ParserException {
@@ -55,12 +55,13 @@ public class BBGame {
           
         System.out.println("\tIs Consistent?:\t\t" + BooleanToCNF.satSolve(expr));
         System.out.println();
+        
         if(!fast) {
         	try {this.display(); }
         	catch(Exception e) { System.out.println("No model found: board is possibly unsatisfiable");}
         }
         else
-        	System.out.println("\tTo see any potential models, try running with consistent(!fast) - however, this will negatively affect runtime");
+        	System.out.println("\tTo see any potential models, try running with consistent(fast) - however, this will negatively affect runtime");
 	}
 	
 	public void consistent() throws ParserException {

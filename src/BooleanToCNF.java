@@ -47,14 +47,7 @@ public class BooleanToCNF {
         miniSat.add(cnf);
         Tristate result = miniSat.sat();
 
-
         model = miniSat.model();
-
-        /*
-        List<Assignment> assignments = miniSat.enumerateAllModels();
-        for (int i = 0; i < assignments.size(); i++) {
-        	System.out.println("\tPossible Assignment: \t\t" + assignments.get(i).literals());
-          }*/
         
         return result;
     }
