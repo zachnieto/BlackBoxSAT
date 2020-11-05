@@ -23,7 +23,7 @@ public abstract class AHint {
         this.position = p;
         this.dir = dir;
     }
-
+    
     /**
      * Gets the dimensions of the board.
      *
@@ -63,11 +63,24 @@ public abstract class AHint {
      * @param position - position to be checked
      * @return whether or not the position is valid
      */
-    public boolean outOfBounds(Posn position) {
-        return position.getX() <= -1
-                || position.getY() <= -1
-                || position.getX() >= this.boardDim
-                || position.getY() >= this.boardDim;
+    public boolean outOfBounds(Posn p) {
+        return p.getX() <= -1
+            || p.getY() <= -1
+            || p.getX() >= this.boardDim
+            || p.getY() >= this.boardDim;
+    }
+    
+    /**
+     * Asks if the current position is a valid StartPosition, one square adjacent 
+     * 
+     * @return if the current position is a validStartPosition
+     */
+    public boolean validStartPosition() {
+    	return (!this.outOfBounds(this.dir.getNextPosn(this.position))) 
+    		&& ((this.position.getX() == -1) 
+    				|| (this.position.getY() == -1) 
+    				|| (this.position.getX() == this.boardDim) 
+    				|| (this.position.getY() == this.boardDim)); 
     }
     
     @Override

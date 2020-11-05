@@ -19,18 +19,28 @@ public class Hit extends AHint {
     @Override
 	public String generate() {
     	if(this.outOfBounds(this.dir.ballCCW(this.position))) {
-    		return String.format("(~P%d%d) & (", this.dir.ballCW(this.position).getX(), this.dir.ballCW(this.position).getY())
+    		return String.format("(~P%d%d) & (P%d%d | ", this.dir.ballCW(this.position).getX(),
+    											 	  	this.dir.ballCW(this.position).getY(), 
+    											 	  	this.dir.getNextPosn(this.position).getX(),
+    											 	  	this.dir.getNextPosn(this.position).getY())
     			+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(new ArrayList<>())
     			+ ")"; 	
     	}
     	else if(this.outOfBounds(this.dir.ballCW(this.position))) {
-    		return String.format("(~P%d%d) & (", this.dir.ballCCW(this.position).getX(), this.dir.ballCCW(this.position).getY())
+    		return String.format("(~P%d%d) & (P%d%d | ", this.dir.ballCCW(this.position).getX(),
+    											 		 this.dir.ballCCW(this.position).getY(),
+    											 		 this.dir.getNextPosn(this.position).getX(),
+    											 	  	 this.dir.getNextPosn(this.position).getY())
         			+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(new ArrayList<>())
         			+ ")"; 
     	}
     	else {
-	    	return String.format("(~P%d%d) & (~P%d%d) & (", this.dir.ballCW(this.position).getX(), this.dir.ballCW(this.position).getY(),
-	    											   this.dir.ballCCW(this.position).getX(), this.dir.ballCCW(this.position).getY())
+	    	return String.format("(~P%d%d) & (~P%d%d) & (P%d%d | ", this.dir.ballCW(this.position).getX(),
+	    														 	this.dir.ballCW(this.position).getY(),
+	    														 	this.dir.ballCCW(this.position).getX(),
+	    														 	this.dir.ballCCW(this.position).getY(),
+	    														 	this.dir.getNextPosn(this.position).getX(),
+	    	    											 	  	this.dir.getNextPosn(this.position).getY())
 	    		   + new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(new ArrayList<>())
 	    		   + ")";
     	}
@@ -53,41 +63,57 @@ public class Hit extends AHint {
 			return "P" + this.position.getX() + this.position.getY();
 		else if ( this.outOfBounds(ballCW)  ) {
 			return String.format("(P%d%d | ((P%d%d => " + AHint.nil + ") & (~P%d%d => ",
-						this.position.getX(), this.position.getY(), 
-						ballCCW.getX(), ballCCW.getY(), 
-						ballCCW.getX(), ballCCW.getY())
+						this.dir.getNextPosn(this.position).getX(),
+						this.dir.getNextPosn(this.position).getY(),
+						ballCCW.getX(), 
+						ballCCW.getY(), 
+						ballCCW.getX(),
+						ballCCW.getY())
 					+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(checked) + ")))";
 		}
 		else if ( this.outOfBounds(ballCCW) ) {
 			return String.format("(P%d%d | ((P%d%d => " + AHint.nil + ") & (~P%d%d => ",
-						this.position.getX(), this.position.getY(), 
-						ballCW.getX(), ballCW.getY(), 
-						ballCW.getX(), ballCW.getY())
+						this.dir.getNextPosn(this.position).getX(),
+						this.dir.getNextPosn(this.position).getY(),
+						ballCW.getX(),
+						ballCW.getY(), 
+						ballCW.getX(),
+						ballCW.getY())
 				+ new Hit(this.boardDim, this.dir.getNextPosn(this.position), this.dir).generate(checked) + ")))";
 		
 		}		
 		else {			
 			return String.format("(P%d%d | ((~P%d%d & ~P%d%d) => ", 
-					this.position.getX(), this.position.getY(), 
-					ballCW.getX(), ballCW.getY(),
-					ballCCW.getX(), ballCCW.getY())
+					this.dir.getNextPosn(this.position).getX(),
+			 	  	this.dir.getNextPosn(this.position).getY(),
+					ballCW.getX(),
+					ballCW.getY(),
+					ballCCW.getX(),
+					ballCCW.getY())
 				+ new Hit(this.boardDim, dir.getNextPosn(this.position), this.dir).generate(new ArrayList<>(checked))
 				+ ")"
 				
 				+ String.format(" & ((P%d%d & ~P%d%d) => ",
-						ballCW.getX(), ballCW.getY(), 
-						ballCCW.getX(), ballCCW.getY())
+						ballCW.getX(),
+						ballCW.getY(), 
+						ballCCW.getX(),
+						ballCCW.getY())
 				+ new Hit(this.boardDim, this.dir.nextClockwiseDirection().getNextPosn(this.position), this.dir.nextClockwiseDirection()).generate(new ArrayList<>(checked))
 				+ ")"
 				
 				+ String.format(" & ((~P%d%d & P%d%d) => ",
-						ballCW.getX(), ballCW.getY(), 
-						ballCCW.getX(), ballCCW.getY())
+						ballCW.getX(),
+						ballCW.getY(), 
+						ballCCW.getX(),
+						ballCCW.getY())
 				+ new Hit(this.boardDim, this.dir.nextCounterClockwiseDirection().getNextPosn(this.position), this.dir.nextCounterClockwiseDirection()).generate(new ArrayList<>(checked))
 				+ ")"
 				+ String.format(" & ((P%d%d & P%d%d) => " + AHint.nil + ")",
-						ballCW.getX(), ballCW.getY(), 
-						ballCCW.getX(), ballCCW.getY()) + ")"; 
+						ballCW.getX(),
+						ballCW.getY(), 
+						ballCCW.getX(),
+						ballCCW.getY())
+				+ ")"; 
 		}
 	
 	}
