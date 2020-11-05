@@ -37,62 +37,69 @@ public class AHintTest {
     	final boolean fast = true; 
     	final boolean slow = !fast; 
     	
-    	AHint unsatHint1 = new Exit(3, new Posn(-1, 1), Direction.EAST, new Posn(-1, 1), new Posn(1, -1));
+    	AHint unsatHint1 = new Exit(3, new Posn(-1, 1), Direction.EAST, new Posn(1, -1));
 		AHint unsatHint2 = new Hit(3, new Posn(-1, 1), Direction.EAST);
 		AHint unsatHint3 = new Hit(3, new Posn(0, -1), Direction.SOUTH);
-		AHint unsatHint4 = new Exit(3, new Posn(-1, 2), Direction.EAST, new Posn(-1, 2), new Posn(3, 2));
+		AHint unsatHint4 = new Exit(3, new Posn(-1, 2), Direction.EAST, new Posn(3, 2));
     	
-        AHint satHint1 = new Exit(3, new Posn(-1, 0), Direction.EAST, new Posn(-1, 0), new Posn(0, -1));
+        AHint satHint1 = new Exit(3, new Posn(-1, 0), Direction.EAST, new Posn(0, -1));
         AHint satHint2 = new Hit(3, new Posn(-1, 1), Direction.EAST);
-        AHint satHint3 = new Exit(3, new Posn(-1, 2), Direction.EAST, new Posn(-1, 2), new Posn(0, 3));
-        AHint satHint4 = new Exit(3, new Posn(0, 3), Direction.NORTH, new Posn(0, 3), new Posn(-1, 2));
+        AHint satHint3 = new Exit(3, new Posn(-1, 2), Direction.EAST, new Posn(0, 3));
+        AHint satHint4 = new Exit(3, new Posn(0, 3), Direction.NORTH, new Posn(-1, 2));
         AHint satHint5 = new Hit(3, new Posn(1, 3), Direction.NORTH);
-        AHint satHint6 = new Exit(3, new Posn(2, 3), Direction.NORTH, new Posn(2, 3), new Posn(3, 2));
-        AHint satHint7 = new Exit(3, new Posn(3, 2), Direction.WEST, new Posn(3, 2), new Posn(2, 3));
-        AHint satHint8 = new Exit(3, new Posn(3, 1), Direction.WEST, new Posn(3, 1), new Posn(3, 1));
+        AHint satHint6 = new Exit(3, new Posn(2, 3), Direction.NORTH, new Posn(3, 2));
+        AHint satHint7 = new Exit(3, new Posn(3, 2), Direction.WEST, new Posn(2, 3));
+        AHint satHint8 = new Exit(3, new Posn(3, 1), Direction.WEST, new Posn(3, 1));
         AHint satHint9 = new Hit(3, new Posn(3, 0), Direction.WEST);
         AHint satHint10 = new Hit(3, new Posn(2, -1), Direction.SOUTH);
-        AHint satHint11 = new Exit(3, new Posn(1, -1), Direction.SOUTH, new Posn(1, -1), new Posn(1, -1));
-        AHint satHint12 = new Exit(3, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 0));
+        AHint satHint11 = new Exit(3, new Posn(1, -1), Direction.SOUTH, new Posn(1, -1));
+        AHint satHint12 = new Exit(3, new Posn(0, -1), Direction.SOUTH, new Posn(-1, 0));
         
-        AHint bigSat1 = new Exit(5, new Posn(-1, 0), Direction.EAST, new Posn(-1, 0), new Posn(0, -1)); //yes
-        AHint bigSat2 = new Hit(5, new Posn(-1, 1), Direction.EAST); // yes
-        AHint bigSat3 = new Hit(5, new Posn(-1, 2), Direction.EAST); // yes
-        AHint bigSat4 = new Exit(5, new Posn(-1, 3), Direction.EAST, new Posn(-1, 3), new Posn(-1, 3)); // yes
-        AHint bigSat5 = new Hit(5, new Posn(-1, 4), Direction.EAST); // yes
-        AHint bigSat6 = new Hit(5, new Posn(0, 5), Direction.NORTH); // yes
-        AHint bigSat7 = new Exit(5, new Posn(1, 5), Direction.NORTH, new Posn(1, 5), new Posn(1, 5));  // yes
-        AHint bigSat8 = new Hit(5, new Posn(2, 5), Direction.NORTH); // yes
-        AHint bigSat9 = new Hit(5, new Posn(3, 5), Direction.NORTH); // yes
-        AHint bigSat10 = new Exit(5, new Posn(4, 5), Direction.NORTH, new Posn(4, 5), new Posn(5, 3)); // yes
-        AHint bigSat11 = new Hit(5, new Posn(5, 4), Direction.WEST); // yes
-        AHint bigSat12 = new Exit(5, new Posn(5, 3), Direction.WEST, new Posn(5, 3), new Posn(4, 5)); // yes
+        AHint bigSat1 = new Exit(5, new Posn(-1, 0), Direction.EAST, new Posn(0, -1));
+        AHint bigSat2 = new Hit(5, new Posn(-1, 1), Direction.EAST); 
+        AHint bigSat3 = new Hit(5, new Posn(-1, 2), Direction.EAST); 
+        AHint bigSat4 = new Exit(5, new Posn(-1, 3), Direction.EAST, new Posn(-1, 3)); 
+        AHint bigSat5 = new Hit(5, new Posn(-1, 4), Direction.EAST); 
+        AHint bigSat6 = new Hit(5, new Posn(0, 5), Direction.NORTH); 
+        AHint bigSat7 = new Exit(5, new Posn(1, 5), Direction.NORTH, new Posn(1, 5));
+        AHint bigSat8 = new Hit(5, new Posn(2, 5), Direction.NORTH); 
+        AHint bigSat9 = new Hit(5, new Posn(3, 5), Direction.NORTH); 
+        AHint bigSat10 = new Exit(5, new Posn(4, 5), Direction.NORTH, new Posn(5, 3)); 
+        AHint bigSat11 = new Hit(5, new Posn(5, 4), Direction.WEST); 
+        AHint bigSat12 = new Exit(5, new Posn(5, 3), Direction.WEST, new Posn(4, 5)); 
         AHint bigSat13 = new Hit(5, new Posn(5, 2), Direction.WEST); 
-        AHint bigSat14 = new Exit(5, new Posn(5, 1), Direction.WEST, new Posn(5, 1), new Posn(4, -1)); 
-        AHint bigSat15 = new Exit(5, new Posn(5, 0), Direction.WEST, new Posn(5, 0), new Posn(2, -1)); 
-        AHint bigSat16 = new Exit(5, new Posn(4, -1), Direction.SOUTH, new Posn(4, -1), new Posn(5, 1)); 
+        AHint bigSat14 = new Exit(5, new Posn(5, 1), Direction.WEST, new Posn(4, -1)); 
+        AHint bigSat15 = new Exit(5, new Posn(5, 0), Direction.WEST, new Posn(2, -1)); 
+        AHint bigSat16 = new Exit(5, new Posn(4, -1), Direction.SOUTH, new Posn(5, 1)); 
         AHint bigSat17 = new Hit(5, new Posn(3, -1), Direction.SOUTH); 
-        AHint bigSat18 = new Exit(5, new Posn(2, -1), Direction.SOUTH, new Posn(2, -1), new Posn(5, 0)); 
+        AHint bigSat18 = new Exit(5, new Posn(2, -1), Direction.SOUTH, new Posn(5, 0)); 
         AHint bigSat19 = new Hit(5, new Posn(1, -1), Direction.SOUTH); 
-        AHint bigSat20 = new Exit(5, new Posn(0, -1), Direction.SOUTH, new Posn(0, -1), new Posn(-1, 0));  
+        AHint bigSat20 = new Exit(5, new Posn(0, -1), Direction.SOUTH, new Posn(-1, 0)); 
+        
+        AHint bigUnsat1 = new Hit(5, new Posn(4, -1), Direction.SOUTH); 
+        AHint bigUnsat2 = new Exit(5, new Posn(5, 1), Direction.WEST, new Posn(5, 1)); 
+        AHint bigUnsat3 = new Exit(5, new Posn(5, 2), Direction.WEST, new Posn(5, 2)); 
+        AHint bigUnsat4 = new Exit(5, new Posn(5, 3), Direction.WEST, new Posn(5, 3)); 
+        AHint bigUnsat5 = new Hit(5, new Posn(4, 5), Direction.NORTH); 
+        AHint bigUnsat6 = new Exit(5, new Posn(5, 4), Direction.WEST, new Posn(5, 4)); 
+        AHint bigUnsat7 = new Exit(5, new Posn(5, 0), Direction.WEST, new Posn(5, 0));   
         
         AHint[] unSatHints = {unsatHint1, unsatHint2, unsatHint3, unsatHint4}; 
         AHint[] satHints = {satHint1, satHint2, satHint3, satHint4, satHint5, satHint6, satHint7, satHint8, satHint9, satHint10, satHint11, satHint12};
         AHint[] bigBoard = {bigSat1, bigSat2, bigSat3, bigSat4, bigSat5, bigSat6, bigSat7, bigSat8, bigSat9, bigSat10, bigSat11, bigSat12, bigSat13, bigSat14, bigSat15, bigSat16, bigSat17, bigSat18, bigSat19, bigSat20};
-       
+        AHint[] bigUnsatBoard = {bigUnsat1, bigUnsat2, bigUnsat3, bigUnsat4, bigUnsat5, bigUnsat6, bigUnsat7};
+        
+        
         BBGame unsatEx1 = new BBGame("unsat 3x3", unSatHints); 
         BBGame satEx2 = new BBGame("sat 3x3", satHints);
         BBGame bigGame = new BBGame("sat 5x5", bigBoard); 
+        BBGame bigUnsatGame = new BBGame("unsat 5x5", bigUnsatBoard); 
         
         unsatEx1.consistent(slow); 
+        satEx2.consistent(slow);
+        //bigGame.consistent(slow); 
+        //bigUnsatGame.consistent(slow); 
         
-        System.out.println();
-        
-        satEx2.consistent(slow); 
-        
-        System.out.println();
-        
-        //bigGame.consistent(fast);
         
         String booleanForm = bigSat8.generate(); 
         booleanForm = substitute(booleanForm, "P00", false);
@@ -166,7 +173,7 @@ public class AHintTest {
     }
     
     @Test
-    public void testGetNextPosn() { //TODO: more tests 
+    public void testGetNextPosn() {
     	assertEquals(Direction.EAST.getNextPosn(new Posn(0, 0)), new Posn(1, 0)); 
     	assertEquals(Direction.WEST.getNextPosn(new Posn(0, 0)), new Posn(-1, 0)); 
     	assertEquals(Direction.SOUTH.getNextPosn(new Posn(0, 0)), new Posn(0, 1)); 
@@ -245,13 +252,33 @@ public class AHintTest {
     
     @Property
     public void testEqualsProperties(int bd, @From(PosnGenerator.class) Posn p, Direction d) {
-    	assertEquals(new Hit(bd, p, d).equals(new Exit(bd, p, d, p, p)), true); 
+    	assertEquals(new Hit(bd, p, d).equals(new Exit(bd, p, d, p)), true); 
     	assertEquals(new Hit(bd, p, d).equals(new Hit(bd, p, d)), true); 
-    	assertEquals(new Exit(bd, p, d, p, p).equals(new Exit(bd, p, d, p, p)), true); 
+    	assertEquals(new Exit(bd, p, d, p).equals(new Exit(bd, p, d, p)), true); 
     	
     	assertEquals(new Hit(bd, p, d).equals(new Hit(bd, d.getNextPosn(p), d)), false); 
-    	assertEquals(new Exit(bd, p, d, p, p).equals(new Exit(bd, p, d, d.getNextPosn(p), d.getNextPosn(d.getNextPosn(p)))), true); 
-    	assertEquals(new Exit(bd, p, d, p, p).equals(new Exit(bd, d.getNextPosn(p), d, p, p)), false); 
+    	assertEquals(new Exit(bd, p, d, p).equals(new Exit(bd, p, d, d.getNextPosn(p), d.getNextPosn(d.getNextPosn(p)))), true); 
+    	assertEquals(new Exit(bd, p, d, p).equals(new Exit(bd, d.getNextPosn(p), d, p, p)), false); 
+    }
+    
+    @Test
+    public void testValidStartPosition() {
+    	assertEquals(new Hit(1, new Posn(-1, 3), Direction.NORTH).validStartPosition(), false); 
+    	assertEquals(new Hit(1, new Posn(-1, 3), Direction.EAST).validStartPosition(), false);
+    	assertEquals(new Hit(3, new Posn(2, -1), Direction.NORTH).validStartPosition(), false);
+    	assertEquals(new Hit(3, new Posn(2, -1), Direction.SOUTH).validStartPosition(), true);
+    	assertEquals(new Hit(3, new Posn(3, -1), Direction.WEST).validStartPosition(), false);
+    	assertEquals(new Hit(3, new Posn(3, 3), Direction.NORTH).validStartPosition(), false);
+    	assertEquals(new Hit(3, new Posn(2, 3), Direction.NORTH).validStartPosition(), true);
+    }
+    
+    @Test 
+    public void testOutOfBounds() {
+    	assertEquals(new Hit(5, new Posn(0, 0), Direction.SOUTH).outOfBounds(new Posn(3, -2)), true);
+    	assertEquals(new Hit(5, new Posn(0, 0), Direction.SOUTH).outOfBounds(new Posn(5, 5)), true);
+    	assertEquals(new Hit(5, new Posn(0, 0), Direction.SOUTH).outOfBounds(new Posn(3, 2)), false);
+    	assertEquals(new Hit(5, new Posn(0, 0), Direction.SOUTH).outOfBounds(new Posn(0, 0)), false);
+    	assertEquals(new Hit(5, new Posn(0, 0), Direction.SOUTH).outOfBounds(new Posn(4, -1)), true);
     }
     
     @Property

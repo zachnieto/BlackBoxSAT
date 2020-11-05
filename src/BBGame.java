@@ -13,6 +13,15 @@ public class BBGame {
 	private String cnfString;
 	
 	BBGame(String name, AHint[] hints) {
+		int boardDim = hints[0].getBoardDim();
+		for(AHint h : hints) {
+			if (h.getBoardDim() <= 0 || h.getBoardDim() != boardDim) {
+				throw new IllegalArgumentException("Illegal board dimension - make sure every hint is initialized with the same board dimensions.");
+			}
+			if (!h.validStartPosition()) {
+				throw new IllegalArgumentException("Illegal start position - start positions have to be one square outside the board"); 
+			}
+		}
 		this.hints = hints; 
 		this.name = name; 
 	}
@@ -38,6 +47,8 @@ public class BBGame {
 	 * @throws ParserException if the expression cannot be parsed
 	 */
 	public void consistent(boolean fast) throws ParserException {
+		long startTime = System.nanoTime(); 
+		
 		String expr = this.generateAllHints(); 
 		
 		System.out.println("Name: " + this.name);
@@ -58,10 +69,16 @@ public class BBGame {
         
         if(!fast) {
         	try {this.display(); }
-        	catch(Exception e) { System.out.println("No model found: board is possibly unsatisfiable");}
+        	catch(Exception e) { System.out.println("\tNo model found: board is possibly unsatisfiable");}
         }
         else
-        	System.out.println("\tTo see any potential models, try running with consistent(fast) - however, this will negatively affect runtime");
+        	System.out.println("\tTo see any potential models, try running with consistent(slow) - however, this will negatively affect runtime");
+        
+        long endTime = System.nanoTime(); 
+        
+        System.out.print("\tTime to check consistency: " + (endTime - startTime) / 1000000 + " ms\t - \t" );
+        System.out.print( (fast) ? "Fast flag enabled" : "Slow flag enabled" );
+        System.out.println();
 	}
 	
 	public void consistent() throws ParserException {
