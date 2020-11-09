@@ -246,12 +246,12 @@ public class AHintTest {
         //unsatEx1.consistent(fast);
         //satEx2.consistent(fast);
         //bigGame.consistent(fast);
-        bigUnsatGame.consistent(fast);
+        //bigUnsatGame.consistent(fast);
         //online1.consistent(slow);
         //online2.consistent(fast);
         //online3.consistent(fast);
         //online4.consistent(slow);
-        //online5.consistent(slow);
+        online5.consistent(slow);
         //online7.consistent(fast);
 
 
@@ -347,52 +347,52 @@ public class AHintTest {
     
     @Property
     public void testGetNextPosnProperties(int x, int y) {
-    	assertEquals(Direction.EAST.getNextPosn(new Posn(x, y)), new Posn(x + 1, y)); 
+    	assertEquals(Direction.EAST.getNextPosn(new Posn(x, y)), new Posn(x + 1, y));
     	assertEquals(Direction.NORTH.getNextPosn(new Posn(x, y)), new Posn(x, y - 1));
     	assertEquals(Direction.WEST.getNextPosn(new Posn(x, y)), new Posn(x - 1, y));
     	assertEquals(Direction.SOUTH.getNextPosn(new Posn(x, y)), new Posn(x, y + 1));
     }
     
     @Test
-    public void testBallCW() {
-    	assertEquals(Direction.EAST.ballCW(new Posn(0, 0)), new Posn(1, -1)); 
-    	assertEquals(Direction.WEST.ballCW(new Posn(0, 0)), new Posn(-1, 1)); 
-    	assertEquals(Direction.SOUTH.ballCW(new Posn(0, 0)), new Posn(1, 1)); 
-    	assertEquals(Direction.NORTH.ballCW(new Posn(0, 0)), new Posn(-1, -1)); 
+    public void testatomCW() {
+    	assertEquals(Direction.EAST.atomCW(new Posn(0, 0)), new Posn(1, -1)); 
+    	assertEquals(Direction.WEST.atomCW(new Posn(0, 0)), new Posn(-1, 1)); 
+    	assertEquals(Direction.SOUTH.atomCW(new Posn(0, 0)), new Posn(1, 1)); 
+    	assertEquals(Direction.NORTH.atomCW(new Posn(0, 0)), new Posn(-1, -1)); 
     	
-    	assertEquals(Direction.NORTH.ballCW(new Posn(-999, 123)), new Posn(-1000, 122)); 
-    	assertEquals(Direction.SOUTH.ballCW(new Posn(100, -5987)), new Posn(101, -5986));
-    	assertEquals(Direction.EAST.ballCW(new Posn(89652, 15)), new Posn(89653, 14));
+    	assertEquals(Direction.NORTH.atomCW(new Posn(-999, 123)), new Posn(-1000, 122)); 
+    	assertEquals(Direction.SOUTH.atomCW(new Posn(100, -5987)), new Posn(101, -5986));
+    	assertEquals(Direction.EAST.atomCW(new Posn(89652, 15)), new Posn(89653, 14));
     }
     
     @Property
-    public void testBallCWProperties(int x, int y) {
-    	assertEquals(Direction.EAST.ballCW(new Posn(x, y)), new Posn(x + 1, y - 1)); 
-    	assertEquals(Direction.WEST.ballCW(new Posn(x, y)), new Posn(x - 1, y + 1)); 
-    	assertEquals(Direction.SOUTH.ballCW(new Posn(x, y)), new Posn(x + 1, y + 1)); 
-    	assertEquals(Direction.NORTH.ballCW(new Posn(x, y)), new Posn(x - 1, y - 1));
+    public void testatomCWProperties(int x, int y) {
+    	assertEquals(Direction.EAST.atomCW(new Posn(x, y)), new Posn(x + 1, y - 1)); 
+    	assertEquals(Direction.WEST.atomCW(new Posn(x, y)), new Posn(x - 1, y + 1)); 
+    	assertEquals(Direction.SOUTH.atomCW(new Posn(x, y)), new Posn(x + 1, y + 1)); 
+    	assertEquals(Direction.NORTH.atomCW(new Posn(x, y)), new Posn(x - 1, y - 1));
     }
     
     @Test
-    public void testBallCCW() {
-    	assertEquals(Direction.EAST.ballCCW(new Posn(0, 0)), new Posn(1, 1));
-    	assertEquals(Direction.WEST.ballCCW(new Posn(0, 0)), new Posn(-1, -1));
-    	assertEquals(Direction.NORTH.ballCCW(new Posn(0, 0)), new Posn(1, -1));
-    	assertEquals(Direction.SOUTH.ballCCW(new Posn(0, 0)), new Posn(-1, 1));
+    public void testatomCCW() {
+    	assertEquals(Direction.EAST.atomCCW(new Posn(0, 0)), new Posn(1, 1));
+    	assertEquals(Direction.WEST.atomCCW(new Posn(0, 0)), new Posn(-1, -1));
+    	assertEquals(Direction.NORTH.atomCCW(new Posn(0, 0)), new Posn(1, -1));
+    	assertEquals(Direction.SOUTH.atomCCW(new Posn(0, 0)), new Posn(-1, 1));
     }
     
     @Property
-    public void testBallCCWProperties(int x, int y) {
-    	assertEquals(Direction.EAST.ballCCW(new Posn(x, y)), new Posn(x + 1, y + 1)); 
-    	assertEquals(Direction.WEST.ballCCW(new Posn(x, y)), new Posn(x - 1, y - 1)); 
-    	assertEquals(Direction.SOUTH.ballCCW(new Posn(x, y)), new Posn(x - 1, y + 1)); 
-    	assertEquals(Direction.NORTH.ballCCW(new Posn(x, y)), new Posn(x + 1, y - 1));
+    public void testatomCCWProperties(int x, int y) {
+    	assertEquals(Direction.EAST.atomCCW(new Posn(x, y)), new Posn(x + 1, y + 1)); 
+    	assertEquals(Direction.WEST.atomCCW(new Posn(x, y)), new Posn(x - 1, y - 1)); 
+    	assertEquals(Direction.SOUTH.atomCCW(new Posn(x, y)), new Posn(x - 1, y + 1)); 
+    	assertEquals(Direction.NORTH.atomCCW(new Posn(x, y)), new Posn(x + 1, y - 1));
     }
     
     @Property
-    public void testBallProperties(Direction d, @From(PosnGenerator.class) Posn p) {
-    	assertEquals(d.ballCW(p), d.nextCounterClockwiseDirection().ballCCW(p)); 
-    	assertEquals(d.ballCCW(p), d.nextClockwiseDirection().ballCW(p)); 
+    public void testatomProperties(Direction d, @From(PosnGenerator.class) Posn p) {
+    	assertEquals(d.atomCW(p), d.nextCounterClockwiseDirection().atomCCW(p)); 
+    	assertEquals(d.atomCCW(p), d.nextClockwiseDirection().atomCW(p)); 
     }
     
     @Test
@@ -448,9 +448,9 @@ public class AHintTest {
     	assertEquals(new Hit(bd, p, d).outOfBounds(p), (p.getX() >= bd || p.getY() >= bd || p.getX() <= -1 || p.getY() <= -1)); 
     	
     	assertEquals(new Hit(bd, d.getNextPosn(p), d).outOfBounds(d.getNextPosn(p)), 
-    				 new Hit(bd, d.ballCW(p), d).outOfBounds(d.ballCW(p))); 
+    				 new Hit(bd, d.atomCW(p), d).outOfBounds(d.atomCW(p))); 
     	assertEquals(new Hit(bd, d.getNextPosn(p), d).outOfBounds(d.getNextPosn(p)), 
-				     new Hit(bd, d.ballCCW(p), d).outOfBounds(d.ballCCW(p))); 
+				     new Hit(bd, d.atomCCW(p), d).outOfBounds(d.atomCCW(p))); 
     }
     
     @Test

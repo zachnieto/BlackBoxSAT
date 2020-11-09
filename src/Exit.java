@@ -41,16 +41,16 @@ public class Exit extends AHint {
 	
 	@Override
 	public String generate() {
-		if(this.outOfBounds(this.dir.ballCW(this.startPos))) { 
+		if(this.outOfBounds(this.dir.atomCW(this.startPos))) { 
 			if(this.startPos.equals(this.endPos)) {
-				return String.format("(P%d%d & ~P%d%d)", this.dir.ballCCW(this.startPos).getX(),
-														 this.dir.ballCCW(this.startPos).getY(),
+				return String.format("(P%d%d & ~P%d%d)", this.dir.atomCCW(this.startPos).getX(),
+														 this.dir.atomCCW(this.startPos).getY(),
 														 this.dir.getNextPosn(this.startPos).getX(),
 														 this.dir.getNextPosn(this.startPos).getY()); 
 			}
 			else {
-				return String.format("(~P%d%d) & (~P%d%d ", this.dir.ballCCW(this.startPos).getX(),
-												 		    this.dir.ballCCW(this.startPos).getY(),
+				return String.format("(~P%d%d) & (~P%d%d ", this.dir.atomCCW(this.startPos).getX(),
+												 		    this.dir.atomCCW(this.startPos).getY(),
 												 		    this.dir.getNextPosn(this.startPos).getX(),
 	    											 	  	this.dir.getNextPosn(this.startPos).getY())
 				+ " & (" 
@@ -58,16 +58,16 @@ public class Exit extends AHint {
 				+ "))"; 
 			}
 		}
-		else if(this.outOfBounds(this.dir.ballCCW(this.startPos))) {
+		else if(this.outOfBounds(this.dir.atomCCW(this.startPos))) {
 			if(this.startPos.equals(this.endPos)) {
-				return String.format("(P%d%d & ~P%d%d)", this.dir.ballCW(this.startPos).getX(),
-														 this.dir.ballCW(this.startPos).getY(),
+				return String.format("(P%d%d & ~P%d%d)", this.dir.atomCW(this.startPos).getX(),
+														 this.dir.atomCW(this.startPos).getY(),
 														 this.dir.getNextPosn(this.startPos).getX(),
 														 this.dir.getNextPosn(this.startPos).getY()); 
 			}
 			else {
-				return String.format("(~P%d%d) & (~P%d%d ", this.dir.ballCW(this.startPos).getX(),
-												 			this.dir.ballCW(this.startPos).getY(), 
+				return String.format("(~P%d%d) & (~P%d%d ", this.dir.atomCW(this.startPos).getX(),
+												 			this.dir.atomCW(this.startPos).getY(), 
 												 			this.dir.getNextPosn(this.startPos).getX(),
 												 			this.dir.getNextPosn(this.startPos).getY())
 				+ " & (" 
@@ -79,18 +79,18 @@ public class Exit extends AHint {
 			if(this.startPos.equals(this.endPos)) {
 				return String.format("~P%d%d & ((P%d%d | P%d%d) | ", this.dir.getNextPosn(this.startPos).getX(),
 						 											 this.dir.getNextPosn(this.startPos).getY(), 
-						 											 this.dir.ballCW(this.startPos).getX(),
-																	 this.dir.ballCW(this.startPos).getY(),
-																	 this.dir.ballCCW(this.startPos).getX(),
-																	 this.dir.ballCCW(this.startPos).getY()) 
+						 											 this.dir.atomCW(this.startPos).getX(),
+																	 this.dir.atomCW(this.startPos).getY(),
+																	 this.dir.atomCCW(this.startPos).getX(),
+																	 this.dir.atomCCW(this.startPos).getY()) 
 					+ new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>())
 					+ ")"; 
 			}
 			else {
-		    	return String.format("(~P%d%d & ~P%d%d) & (~P%d%d & ", this.dir.ballCW(this.startPos).getX(),
-		    												  		   this.dir.ballCW(this.startPos).getY(),
-		    												  		   this.dir.ballCCW(this.startPos).getX(),
-		    												  		   this.dir.ballCCW(this.startPos).getY(), 
+		    	return String.format("(~P%d%d & ~P%d%d) & (~P%d%d & ", this.dir.atomCW(this.startPos).getX(),
+		    												  		   this.dir.atomCW(this.startPos).getY(),
+		    												  		   this.dir.atomCCW(this.startPos).getX(),
+		    												  		   this.dir.atomCCW(this.startPos).getY(), 
 		    												  		   this.dir.getNextPosn(this.startPos).getX(),
 		    												  		   this.dir.getNextPosn(this.startPos).getY())
 		    		+ new Exit(this.boardDim, this.dir.getNextPosn(this.startPos), this.dir, this.startPos, this.endPos).generate(new ArrayList<>())
@@ -107,12 +107,12 @@ public class Exit extends AHint {
 		    
 		 checked.add(this);
 
-		 // get the position of a ball that would deflect the ray from clockwise
-		 Posn ballCW = this.dir.ballCW(this.position);
-		 // get the position of a ball that would deflect the ray from counterclockwise
-		 Posn ballCCW = this.dir.ballCCW(this.position);
+		 // get the position of an atom that would deflect the ray from clockwise
+		 Posn atomCW = this.dir.atomCW(this.position);
+		 // get the position of an atom that would deflect the ray from counterclockwise
+		 Posn atomCCW = this.dir.atomCCW(this.position);
 
-		 if(this.outOfBounds(ballCCW) && this.outOfBounds(ballCW)) {
+		 if(this.outOfBounds(atomCCW) && this.outOfBounds(atomCW)) {
 			 if(this.dir.getNextPosn(this.position).equals(endPos)) {
 				 return String.format("(~P%d%d)", this.position.getX(),
 						 						  this.position.getY()); 
@@ -120,27 +120,27 @@ public class Exit extends AHint {
 			 else
 				 return AHint.nil; 
 		 }
-		 else if(this.outOfBounds(ballCW)) {
+		 else if(this.outOfBounds(atomCW)) {
 			 if(this.dir.nextCounterClockwiseDirection().getNextPosn(this.position).equals(endPos)) {
-				 return String.format("(P%d%d)", ballCCW.getX(),
-						 						 ballCCW.getY()); 
+				 return String.format("(P%d%d)", atomCCW.getX(),
+						 						 atomCCW.getY()); 
 			 }
 			 else {
-				 return String.format("(~P%d%d & ~P%d%d) & (", ballCCW.getX(),
-						 									   ballCCW.getY(),
+				 return String.format("(~P%d%d & ~P%d%d) & (", atomCCW.getX(),
+						 									   atomCCW.getY(),
 						 									   this.dir.getNextPosn(this.position).getX(),
 		    											 	   this.dir.getNextPosn(this.position).getY())
 					+ new Exit(this.boardDim, this.dir.getNextPosn(this.position), this.dir, this.startPos, this.endPos).generate(checked)
 					+ ")";
 			 }
 		 }
-		 else if(this.outOfBounds(ballCCW)) {
+		 else if(this.outOfBounds(atomCCW)) {
 			 if(this.dir.nextClockwiseDirection().getNextPosn(this.position).equals(endPos)) {
-				 return String.format("(P%d%d)", ballCW.getX(), ballCW.getY()); 
+				 return String.format("(P%d%d)", atomCW.getX(), atomCW.getY()); 
 			 }
 			 else {
-				 return String.format("(~P%d%d & ~P%d%d) & (", ballCW.getX(),
-						 									   ballCW.getY(),
+				 return String.format("(~P%d%d & ~P%d%d) & (", atomCW.getX(),
+						 									   atomCW.getY(),
 						 									   this.dir.getNextPosn(this.position).getX(),
 		    											 	   this.dir.getNextPosn(this.position).getY())
 					+ new Exit(this.boardDim, this.dir.getNextPosn(this.position), this.dir, this.startPos, this.endPos).generate(checked)
@@ -151,31 +151,31 @@ public class Exit extends AHint {
 			 return String.format("(~P%d%d & (", this.dir.getNextPosn(this.position).getX(),
 				 	  						     this.dir.getNextPosn(this.position).getY())
 					 
-			 		+ String.format("((~P%d%d & ~P%d%d) => ", ballCW.getX(), 
-			 											      ballCW.getY(),
-			 											      ballCCW.getX(), 
-			 											      ballCCW.getY())
+			 		+ String.format("((~P%d%d & ~P%d%d) => ", atomCW.getX(), 
+			 											      atomCW.getY(),
+			 											      atomCCW.getX(), 
+			 											      atomCCW.getY())
 			 		+ new Exit(this.boardDim, this.dir.getNextPosn(this.position), this.dir, this.startPos, this.endPos).generate(new ArrayList<>(checked))
 			 		+ ")"
 			 		
-			 		+ String.format(" & ((P%d%d & ~P%d%d) => ", ballCW.getX(), 
-			 													ballCW.getY(),
-			 													ballCCW.getX(), 
-			 													ballCCW.getY())
+			 		+ String.format(" & ((P%d%d & ~P%d%d) => ", atomCW.getX(), 
+			 													atomCW.getY(),
+			 													atomCCW.getX(), 
+			 													atomCCW.getY())
 			 		+ new Exit(this.boardDim, this.dir.nextClockwiseDirection().getNextPosn(this.position), this.dir.nextClockwiseDirection(), this.startPos, this.endPos).generate(new ArrayList<>(checked))
 			 		+ ")"
 			 		
-			 		+ String.format(" & ((~P%d%d & P%d%d) => ", ballCW.getX(),
-			 													ballCW.getY(),
-			 													ballCCW.getX(),
-			 													ballCCW.getY())
+			 		+ String.format(" & ((~P%d%d & P%d%d) => ", atomCW.getX(),
+			 													atomCW.getY(),
+			 													atomCCW.getX(),
+			 													atomCCW.getY())
 			 		+ new Exit(this.boardDim, this.dir.nextCounterClockwiseDirection().getNextPosn(this.position), this.dir.nextCounterClockwiseDirection(), this.startPos, this.endPos).generate(new ArrayList<>(checked))
 			 		+ ")"
 			 		
-			 		+ String.format(" & ((P%d%d & P%d%d) => ", ballCW.getX(),
-			 												   ballCW.getY(),
-			 												   ballCCW.getX(),
-			 												   ballCCW.getY())
+			 		+ String.format(" & ((P%d%d & P%d%d) => ", atomCW.getX(),
+			 												   atomCW.getY(),
+			 												   atomCCW.getX(),
+			 												   atomCCW.getY())
 			 		+ ((startPos.equals(endPos)) ? AHint.t + ")" : AHint.nil + ")") + "))";
 		 }
 

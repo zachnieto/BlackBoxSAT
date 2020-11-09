@@ -71,13 +71,13 @@ public enum Direction {
     }
 
     /**
-     * Returns the position of the ball causing a deflection clockwise.
+     * Returns the position of the atom causing a deflection clockwise.
      *
      * @param cur position of the ray being deflected.
-     * @return the position of the ball
+     * @return the position of the atom
      * @throws IllegalArgumentException if the direction is not valid
      */
-    public Posn ballCW(Posn cur) {
+    public Posn atomCW(Posn cur) {
         switch (this) {
             case NORTH:
                 return new Posn(cur.getX() - 1, cur.getY() - 1);
@@ -95,13 +95,13 @@ public enum Direction {
     }
 
 	/**
-	 * Returns the position of the ball causing a deflection counterclockwise.
+	 * Returns the position of the atom causing a deflection counterclockwise.
 	 *
 	 * @param cur position of the ray being deflected.
 	 * @throws IllegalArgumentException if the direction is not valid
-	 * @return the position of the ball
+	 * @return the position of the atom
 	 */
-    public Posn ballCCW(Posn cur) {
+    public Posn atomCCW(Posn cur) {
         switch (this) {
             case NORTH:
                 return new Posn(cur.getX() + 1, cur.getY() - 1);
