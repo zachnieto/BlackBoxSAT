@@ -12,7 +12,7 @@ You can try out an online version of the game @ http://bibeault.ninja/blackbox/
 We have written a program that represents Black Box hints as a SAT problems. Bundling several hints together allows us to determine their consistency (i.e. check for contradictions). For consistent boards, our algorithm can also recover a set of ball positions that satisfy each of the "hints."
 
 ## Dependencies
-A dependency necessary for implementation is [LogicNG] (https://github.com/logic-ng/LogicNG). LogicNG is a library that allows for memory-effecient Boolean formula manipulation in Java. It provides a flexible tool for parsing complex boolean formulas into conjunctive normal form (CNF), as well as a Java implementation of MiniSAT.  
+A dependency necessary for implementation is [LogicNG] (https://github.com/logic-ng/LogicNG). LogicNG is a library that allows for memory-efficient Boolean formula manipulation in Java. It provides a flexible tool for parsing complex boolean formulas into conjunctive normal form (CNF), as well as a Java implementation of MiniSAT.  
 
 For property-based testing, we use a framework for JUnit called [Quick-Check] (https://pholser.github.io/junit-quickcheck/site/0.9.5/).
 
