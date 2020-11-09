@@ -74,3 +74,4 @@ You can include an optional boolean argument, set to ```false``` to allow the al
 
 For more board examples, see the ```testBoards()``` method in the AHintTest.java file.  
 
+![classdiagram](classdiagram.png)
