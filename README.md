@@ -16,7 +16,7 @@ A dependency necessary for implementation is [LogicNG] (https://github.com/logic
 
 For property-based testing, we use a framework for JUnit called [Quick-Check] (https://pholser.github.io/junit-quickcheck/site/0.9.5/).
 
-Both of these dependencies are part of the Maven Central Repository, and they should already be included in the project's pom.xml file. If, for whatever reason, it gives an error, manually paste the following into your pom.xml copy: 
+Both of these dependencies are part of the Maven Central Repository, and they should already be included in the project's pom.xml file. If, for whatever reason, it gives an error, manually replace the dependency list in your pom.xml copy with the following: 
 
 ```
 <dependencies>
