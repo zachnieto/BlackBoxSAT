@@ -72,5 +72,5 @@ board2.consistent()
 
 You can include an optional boolean argument, set to ```false``` to allow the algorithm to recover the solution and display it in a plain-text board rendering. 
 
-For more board examples, see the ```testBoards()``` method in the AHintTest.java file.  
+For more board examples, see the ```testBoards()``` method in the AHintTest.java file - if you want to run this file yourself, make sure to add the tests folder to the project build path! 
 
