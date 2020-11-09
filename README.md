@@ -25,12 +25,12 @@ Both of these dependencies are part of the Maven Central Repository, and they sh
     <artifactId>logicng</artifactId>
     <version>2.0.2</version>
   </dependency>
-	<dependency>
-	  <groupId>com.pholser</groupId>
-	  <artifactId>junit-quickcheck-core</artifactId>
-	  <version>0.9.5</version>
-	</dependency>
-	<dependency>
+  <dependency>
+    <groupId>com.pholser</groupId>
+    <artifactId>junit-quickcheck-core</artifactId>
+    <version>0.9.5</version>
+  </dependency>
+  <dependency>
     <groupId>com.pholser</groupId>
     <artifactId>junit-quickcheck-generators</artifactId>
     <version>0.9.5</version>
@@ -41,7 +41,7 @@ Both of these dependencies are part of the Maven Central Repository, and they sh
 ## Getting Started
 
 ### Instantiating Hints
-Hints can be instantiated as Hit or Exit objects, children of the AHint abstract class. All that is required for Boolean formula generation is an AHint object. Our board-indexing convntion assumes that the top left corner of the blackbox is (0, 0), with x increasing when travelling east and y increasing when travelling south. 
+Hints can be instantiated as Hit or Exit objects, children of the AHint abstract class. All that is required for Boolean formula generation is an AHint object. Our board-indexing convention assumes that the top left corner of the blackbox is (0, 0), with x increasing when travelling east and y increasing when travelling south. 
 
 ```
 AHint hit1 = new Hit(3, new Posn(-1, 2), Direction.EAST); 
