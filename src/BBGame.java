@@ -7,11 +7,21 @@ import org.logicng.io.parsers.PropositionalParser;
 
 import java.util.SortedSet;
 
+/**
+ * This class represents a game of BlackBox. In generates all hints
+ * and can tell if the board is consistent.
+ */
 public class BBGame {
 	private final AHint[] hints;
 	private final String name;
 	private String cnfString;
-	
+
+	/**
+	 * Constructs a BBGame using the title of the game and all the hints.
+	 *
+	 * @param name title for game
+	 * @param hints list of hints
+	 */
 	BBGame(String name, AHint[] hints) {
 		int boardDim = hints[0].getBoardDim();
 		for(AHint h : hints) {
