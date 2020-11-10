@@ -54,6 +54,7 @@ public class BBGame {
 	
   	/**
 	 * Prints all information, including the characteristic expression and the satisfiability of the game.
+	 * @param fast determines whether all information is displayed
 	 * @throws ParserException if the expression cannot be parsed
 	 */
 	public void consistent(boolean fast) throws ParserException {
@@ -90,7 +91,11 @@ public class BBGame {
         System.out.print( (fast) ? "Fast flag enabled" : "Slow flag enabled" );
         System.out.println();
 	}
-	
+
+	/**
+	 * Prints all information, including the characteristic expression and the satisfiability of the game.
+	 * @throws ParserException if the expression cannot be parsed
+	 */
 	public void consistent() throws ParserException {
 		this.consistent(true); 
     }  
