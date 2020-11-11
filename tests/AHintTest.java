@@ -33,6 +33,98 @@ public class AHintTest {
     }
 
     @Test
+    void testLiveExample() throws ParserException {
+        final boolean fast = true, slow = false;
+
+        AHint hint1 = new Hit(5, new Posn(0, -1), Direction.SOUTH);
+        AHint hint2 = new Exit(5, new Posn(1, -1), Direction.SOUTH, new Posn(1, -1));
+        AHint hint3 = new Exit(5, new Posn(2, -1), Direction.SOUTH, new Posn(5, 1));
+        AHint hint4 = new Hit(5, new Posn(3, -1), Direction.SOUTH);
+        AHint hint5 = new Hit(5, new Posn(4, -1), Direction.SOUTH);
+        AHint hint6 = new Hit(5, new Posn(5, 0), Direction.WEST);
+        AHint hint7 = new Exit(5, new Posn(5, 2), Direction.WEST, new Posn(5, 2));
+        AHint hint8 = new Hit(5, new Posn(5, 3), Direction.WEST);
+        AHint hint9 = new Exit(5, new Posn(5, 4), Direction.WEST, new Posn(5, 4));
+        AHint hint10 = new Hit(5, new Posn(4, 5), Direction.NORTH);
+        AHint hint11 = new Exit(5, new Posn(3, 5), Direction.NORTH, new Posn(-1, 4));
+        AHint hint12 = new Hit(5, new Posn(2, 5), Direction.NORTH);
+        AHint hint13 = new Hit(5, new Posn(1, 5), Direction.NORTH);
+        AHint hint14 = new Exit(5, new Posn(0, 5), Direction.NORTH, new Posn(-1, 3));
+        AHint hint15 = new Hit(5, new Posn(-1, 2), Direction.EAST);
+        AHint hint16 = new Exit(5, new Posn(-1, 1), Direction.EAST, new Posn(-1, 1));
+        AHint hint17 = new Hit(5, new Posn(-1, 0), Direction.EAST);
+
+        AHint[] hints = {   hint1, hint2, hint3, hint4,
+                hint5, hint6, hint7, hint8,
+                hint9, hint10, hint11, hint12,
+                hint13, hint14, hint15, hint16, hint17};
+
+        BBGame onlineGame = new BBGame("online 5x5", hints);
+
+        onlineGame.consistent(slow);
+    }
+
+    @Test
+    void testSingleBoard() throws ParserException {
+        final boolean fast = true, slow = false;
+
+        AHint hint1 = new Hit(5, new Posn(0, -1), Direction.SOUTH);
+        AHint hint2 = new Exit(5, new Posn(1, -1), Direction.SOUTH, new Posn(5, 1));
+        AHint hint3 = new Exit(5, new Posn(2, -1), Direction.SOUTH, new Posn(5, 2));
+        AHint hint4 = new Exit(5, new Posn(3, -1), Direction.SOUTH, new Posn(5, 3));
+        AHint hint5 = new Exit(5, new Posn(4, -1), Direction.SOUTH, new Posn(4, 5));
+        AHint hint6 = new Exit(5, new Posn(5, 0), Direction.WEST, new Posn(-1, 0));
+        AHint hint7 = new Hit(5, new Posn(5, 4), Direction.WEST);
+        AHint hint8 = new Exit(5, new Posn(3, 5), Direction.NORTH, new Posn(3, 5));
+        AHint hint9 = new Hit(5, new Posn(2, 5), Direction.NORTH);
+        AHint hint10 = new Exit(5, new Posn(1, 5), Direction.NORTH, new Posn(1, 5));
+        AHint hint11 = new Exit(5, new Posn(0, 5), Direction.NORTH, new Posn(-1, 4));
+        AHint hint12 = new Exit(5, new Posn(-1, 3), Direction.EAST, new Posn(-1, 3));
+        AHint hint13 = new Hit(5, new Posn(-1, 2), Direction.EAST);
+        AHint hint14 = new Exit(5, new Posn(-1, 1), Direction.EAST, new Posn(-1, 1));
+
+        AHint[] hints = {   hint1, hint2, hint3, hint4,
+                hint5, hint6, hint7, hint8,
+                hint9, hint10, hint11, hint12,
+                hint13, hint14};
+
+        BBGame onlineGame = new BBGame("online 5x5", hints);
+
+        onlineGame.consistent(slow);
+    }
+
+    @Test
+    void testSingleBoardMultipleSolutions() throws ParserException {
+        final boolean fast = true, slow = false;
+
+        AHint hint1 = new Hit(5, new Posn(0, -1), Direction.SOUTH);
+        AHint hint2 = new Exit(5, new Posn(1, -1), Direction.SOUTH, new Posn(1, -1));
+        AHint hint3 = new Hit(5, new Posn(2, -1), Direction.SOUTH);
+        AHint hint4 = new Exit(5, new Posn(3, -1), Direction.SOUTH, new Posn(3, -1));
+        AHint hint5 = new Exit(5, new Posn(4, -1), Direction.SOUTH, new Posn(5, 0));
+        AHint hint6 = new Hit(5, new Posn(5, 1), Direction.WEST);
+        AHint hint7 = new Exit(5, new Posn(5, 2), Direction.WEST, new Posn(4, 5));
+        AHint hint8 = new Exit(5, new Posn(5, 3), Direction.WEST, new Posn(1, 5));
+        AHint hint9 = new Exit(5, new Posn(5, 4), Direction.WEST, new Posn(-1, 4));
+        AHint hint10 = new Hit(5, new Posn(3, 5), Direction.NORTH);
+        AHint hint11 = new Hit(5, new Posn(2, 5), Direction.NORTH);
+        AHint hint12 = new Hit(5, new Posn(0, 5), Direction.NORTH);
+        AHint hint13 = new Exit(5, new Posn(-1, 3), Direction.EAST, new Posn(-1, 3));
+        AHint hint14 = new Hit(5, new Posn(-1, 2), Direction.EAST);
+        AHint hint15 = new Exit(5, new Posn(-1, 1), Direction.EAST, new Posn(-1, 1));
+        AHint hint16 = new Hit(5, new Posn(-1, 0), Direction.EAST);
+
+        AHint[] hints = {   hint1, hint2, hint3, hint4,
+                            hint5, hint6, hint7, hint8,
+                            hint9, hint10, hint11, hint12,
+                            hint13, hint14, hint15, hint16  };
+
+        BBGame onlineGame = new BBGame("online 5x5", hints);
+
+        onlineGame.consistent(slow);
+    }
+
+    @Test
     void testBoards() throws ParserException {
     	final boolean fast = true;
     	final boolean slow = !fast;
@@ -251,8 +343,8 @@ public class AHintTest {
         //online2.consistent(fast);
         //online3.consistent(fast);
         //online4.consistent(slow);
-        online5.consistent(slow);
-        //online7.consistent(fast);
+        //online5.consistent(slow);
+        online7.consistent(slow);
 
 
 
